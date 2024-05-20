@@ -6,12 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 20:52:36 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/18 09:29:02 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 // void	ft_free_info(t_info *info)
 // {
 // 	if (info->first_info)

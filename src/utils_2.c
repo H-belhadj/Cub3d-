@@ -6,12 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:17:27 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/18 19:19:55 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 /* TAKING ONLY THE FIRST WORD FROM A GIVEN LINE, WHICH IS IN OUR CASE 
 "NO" "SO" "WE" "EA" "F" "C" */
 char	*take_first_string(char *line)

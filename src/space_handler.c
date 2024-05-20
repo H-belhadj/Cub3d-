@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   space_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 23:13:15 by aatbir            #+#    #+#             */
-/*   Updated: 2024/04/25 17:57:44 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 10:58:31 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:25:30 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <string.h>
 # include <ctype.h>
 # include <fcntl.h>
-# include "lib/get_next_line.h"
-# include "lib/libft.h"
-# include "MLX/MLX42.h"
+# include "../libft/get_next_line.h"
+# include "../libft/libft.h"
+# include "../MLX/MLX42.h"
 
 
 
@@ -97,6 +97,8 @@ char	*take_first_string(char *line);
 char	*start_with(char *first_word, char *target, size_t size);
 int		is_valid_textures(t_info *info, char *filename);
 void check_get_info(t_info	*info, char *filename);
+int32_t	run_game(void);
+
 
 
 #endif

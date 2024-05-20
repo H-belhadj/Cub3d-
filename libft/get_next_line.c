@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:21:39 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/04/16 11:31:41 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:22:42 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*ft_after_line(char *line)
 		free(line);
 		return (0);
 	}
-	str = malloc(ft_strlen(line) - i + 1);
+	str = malloc(ft_strlen_gnl(line) - i + 1);
 	if (!str)
 		return (0);
 	i++;

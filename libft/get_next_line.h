@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 17:22:12 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/04/16 11:32:31 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:22:19 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #  define BUFFER_SIZE 1
 # endif
 
-size_t	ft_strlen(char *str);
+size_t	ft_strlen_gnl(char *str);
 char	*ft_strjjoin(char *s1, char *s2);
 char	*ft_strchhr( char *s, int c);
 char	*get_next_line(int fd);

@@ -6,12 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:17:24 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/18 10:34:50 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 /* THE FOLLOWONG FUNCTIONS ARE DESGINED TO GET INFO FROM THE STRUCT,
 HALF_STRIM THE CARACTERS AND CHECK IF THE OUTPUT IS A FILE THAT CAN OPENED */
 

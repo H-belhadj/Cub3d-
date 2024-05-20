@@ -6,11 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 19:58:34 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/19 21:02:04 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:25:42 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "head.h"
+#include "../includes/head.h"
 
 typedef struct key_value
 {
@@ -53,8 +53,8 @@ int	main(int ac, char **av)
 	// printf("+color 1 : %s\n", info->first_color);
 	// printf("+color 2 : %s\n", info->second_color);
 	parsing(info, av[1]);
+	run_game();
 	arr_free(str);
 	// system("leaks cub3D");
-	exit(0);
 	return (0);
 }

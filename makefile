@@ -1,17 +1,15 @@
-SRCS = main.c \
+SRC = main.c \
        ray.c \
-       lib/get_next_line.c \
-       lib/get_next_line_utils.c \
-       parsing/check_identity.c \
-       parsing/space_handler.c \
-       parsing/utils.c \
-       parsing/utils_2.c \
-       parsing/get_path.c \
-       parsing/get_color.c \
-       parsing/color.c \
-       parsing/parse.c \
-       parsing/helpers.c
-	   
+       check_identity.c \
+       space_handler.c \
+       utils.c \
+       utils_2.c \
+       get_path.c \
+       get_color.c \
+       color.c \
+       parse.c \
+       helpers.c
+
 SRC_DIR = src/
 OBJ_DIR = obj/
 
@@ -22,13 +20,13 @@ NAME = cub3D
 CFLAGS= -O3 -Ofast -flto   -Wall -Wextra -Werror
 
 ifeq ($(shell uname), Linux)
-	MLX_FLAGS = -lm MLX/Linux_MLX.a -Iinclude -ldl -lglfw
+	MLX_FLAGS = -lm MLX/Linux_MLX.a  -ldl -lglfw
 else ifeq ($(shell uname), Darwin)
 	BREW_PREFIX = $(shell brew --prefix)
-	MLX_FLAGS = -lm MLX/MacOS_MLX.a -Iinclude -lglfw -L"$(BREW_PREFIX)/lib/"
+	MLX_FLAGS = -lm MLX/MacOS_MLX.a  -lglfw -L"$(BREW_PREFIX)/lib/"
 endif
 
-INCLUDE = -I libft -I includes
+INCLUDE = -I libft
 
 RED = \033[1;31m
 GREEN = \033[1;32m
@@ -42,7 +40,7 @@ $(NAME) : ascci_art $(OBJ)
 	@make -C libft > /dev/null
 	@$(CC) $(OBJ) $(CFLAGS) $(MLX_FLAGS) $(INCLUDE) libft/libft.a -o $@
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c includes/cub3d.h
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 

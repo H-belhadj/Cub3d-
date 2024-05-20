@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:31:52 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/16 11:24:12 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 char	**textures(void)
 {
 	char	**text;

@@ -6,12 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:14:40 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/19 13:05:25 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
-
+#include "../includes/head.h"
 int	is_valid_textures(t_info *info, char *filename)
 {
 	char	*first;

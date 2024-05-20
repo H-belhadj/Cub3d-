@@ -6,11 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:55:26 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/19 12:04:51 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:54 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../head.h"
+#include "../includes/head.h"
 
 /* FUNCTION TO READ LINE AND RETURNS IT IN A SINGLE LINE*/
 
