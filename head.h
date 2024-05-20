@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/19 11:28:31 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/20 10:58:31 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include "lib/get_next_line.h"
 # include "lib/libft.h"
-# include "mlx/include/MLX42/MLX42.h"
+# include "MLX/MLX42.h"
 
 
 
@@ -39,7 +39,10 @@ typedef struct s_info
 	int		_c[3];
 	int		x;
 	int		y;
-	char pos;
+	char 	pos;
+	void 	*mlx;
+	mlx_image_t *img;
+	void 	*win;
 }	t_info;
 
 // typedef struct s_player
