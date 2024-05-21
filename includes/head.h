@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 19:19:25 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:29:19 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <math.h>
 # include <ctype.h>
 # include <fcntl.h>
 #include <stdlib.h>
@@ -27,8 +28,11 @@
 
 
 # define TILE_SIZE 64
-# define HEIGHT 740
-# define WIDTH 1150
+#define WIDTH 512
+#define HEIGHT 512
+
+# define PIXEL_SIZE 50
+
 
 typedef struct s_info
 {
@@ -38,10 +42,11 @@ typedef struct s_info
 	char	*fourth_info;
 	char	*first_color;
 	char	*second_color;
+	double	view;
 	int		_f[3];
 	int		_c[3];
-	int		x;
-	int		y;
+	float		x;
+	float		y;
 	char 	pos;
 	mlx_t 	*mlx;
 	mlx_image_t *img;
