@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 19:58:34 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 12:25:42 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:14:45 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ typedef struct key_value
 	char	*value;
 }	t_kv;
 
+
 int	main(int ac, char **av)
 {
 	t_info	*info ;
 	char	**str;
+	t_info  map;
 	// char	*take;
 	int		i;
 
@@ -35,7 +37,7 @@ int	main(int ac, char **av)
 	str = store_get_info_in_array(info, av[1]);
 	// while(str[i])
 	// 	printf("%s\n", str[i++]);
-	printf ("%c\n", info_path->info->pos);
+	// printf ("%c\n", info_path->info->pos);
 	// info->first_color = 0;
 	// info->first_info = 0;
 	// info
@@ -53,7 +55,8 @@ int	main(int ac, char **av)
 	// printf("+color 1 : %s\n", info->first_color);
 	// printf("+color 2 : %s\n", info->second_color);
 	parsing(info, av[1]);
-	run_game();
+	init(&map);
+	// run_game();
 	arr_free(str);
 	// system("leaks cub3D");
 	return (0);

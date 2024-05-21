@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:14:40 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:56:06 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,14 +183,14 @@ void	put_map(char **map, char *file_name)
 	// while (map[i])
 	// 	printf("line : %s\n", map[i++]);
 	// exit(0);
-	info_path->map = ft_calloc(sizeof(char *), ((len2darray(map) - i) + 1));
+	info_path->info->map = ft_calloc(sizeof(char *), ((len2darray(map) - i) + 1));
 	j = 0;
 	// n = 0;
 	// map_end = end(map, file_name);
 
 	// while (map[i] && i <= map_end)
 	// {
-	// 	info_path->map[j] = map[i];
+	// 	info_path->info->map[j] = map[i];
 	// 	j++;
 	// 	i++;
 	// }
@@ -199,13 +199,13 @@ void	put_map(char **map, char *file_name)
 		if (!map[i][0])
 			i++;
 		else
-			info_path->map[j++] = ft_strdup(map[i++]);
+			info_path->info->map[j++] = ft_strdup(map[i++]);
 	}
-	info_path->map[j] = NULL;
+	info_path->info->map[j] = NULL;
 	i = 0;
 	free_(map);
-	// while (info_path->map[i])
-	// 	printf("line : '%s' : \n", info_path->map[i++]);
+	// while (info_path->info->map[i])
+	// 	printf("line : '%s' : \n", info_path->info->map[i++]);
 }
 
 int	empty_line(void)
@@ -213,10 +213,10 @@ int	empty_line(void)
 	int	i;
 
 	i = 0;
-	while (info_path->map[i])
+	while (info_path->info->map[i])
 	{
 		
-		if (all_white(info_path->map[i]))
+		if (all_white(info_path->info->map[i]))
 			return (0);
 		i++;
 	}
@@ -231,13 +231,13 @@ int	player_num(void)
 
 	i = -1;
 	c = 0;
-	while (info_path->map[++i])
+	while (info_path->info->map[++i])
 	{
 		j = -1;
-		while (info_path->map[i][++j])
+		while (info_path->info->map[i][++j])
 		{
-			if (info_path->map[i][j] == 'N' || info_path->map[i][j] == 'S'
-				|| info_path->map[i][j] == 'E' || info_path->map[i][j] == 'W')
+			if (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'S'
+				|| info_path->info->map[i][j] == 'E' || info_path->info->map[i][j] == 'W')
 				c++;
 		}
 	}
@@ -253,12 +253,12 @@ int	check_existance(char c)
 
 	count = 0;
 	i = -1;
-	while (info_path->map[++i])
+	while (info_path->info->map[++i])
 	{
 		j = -1;
-		while (info_path->map[i][++j])
+		while (info_path->info->map[i][++j])
 		{
-			if (info_path->map[i][j] == c)
+			if (info_path->info->map[i][j] == c)
 				count++;
 		}
 	}
@@ -273,15 +273,15 @@ int	check_content(void)
 	int	j;
 
 	i = -1;
-	while (info_path->map[++i])
+	while (info_path->info->map[++i])
 	{
 		j = -1;
-		while (info_path->map[i][++j])
+		while (info_path->info->map[i][++j])
 		{
-			if (info_path->map[i][j] != '0' && info_path->map[i][j] != '1'
-				&& info_path->map[i][j] != '\n' && info_path->map[i][j] != 'N'
-				&& info_path->map[i][j] != 'S' && info_path->map[i][j] != 'E'
-				&& info_path->map[i][j] != 'W' && info_path->map[i][j] != ' ')
+			if (info_path->info->map[i][j] != '0' && info_path->info->map[i][j] != '1'
+				&& info_path->info->map[i][j] != '\n' && info_path->info->map[i][j] != 'N'
+				&& info_path->info->map[i][j] != 'S' && info_path->info->map[i][j] != 'E'
+				&& info_path->info->map[i][j] != 'W' && info_path->info->map[i][j] != ' ')
 				return (0);
 		}
 	}
@@ -300,15 +300,15 @@ void	player_pos(void)
 
 	i = -1;
 	// printf("STORMY\n");
-	while (info_path->map[++i])
+	while (info_path->info->map[++i])
 	{
 		j = -1;
-		while (info_path->map[i][++j])
+		while (info_path->info->map[i][++j])
 		{
-			if (info_path->map[i][j] == 'N' || info_path->map[i][j] == 'S'
-				|| info_path->map[i][j] == 'E' || info_path->map[i][j] == 'W')
+			if (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'S'
+				|| info_path->info->map[i][j] == 'E' || info_path->info->map[i][j] == 'W')
 			{
-				info_path->info->pos = info_path->map[i][j];
+				info_path->info->pos = info_path->info->map[i][j];
 				info_path->info->x = i;
 				info_path->info->y  = j;
 			}
@@ -320,7 +320,7 @@ int	map_len(void)
 	int	i;
 
 	i = 0; 
-	while (info_path->map[i])
+	while (info_path->info->map[i])
 		i++;
 	return (i);
 }
@@ -332,23 +332,23 @@ int	map_len(void)
 // 	// printf("len_map  %d \n", len_map);
 	
 // 	i = -1;
-// 	while (info_path->map[++i] && i < len_map)
+// 	while (info_path->info->map[++i] && i < len_map)
 // 	{
-// 		printf("%s \n", info_path->map[i]);
+// 		printf("%s \n", info_path->info->map[i]);
 // 		j = -1;
-// 		while (info_path->map[i][++j])
+// 		while (info_path->info->map[i][++j])
 // 		{
-// 			// printf("%c \n", info_path->map[i][j]);
-// 			if (info_path->map[i][j] == c)
+// 			// printf("%c \n", info_path->info->map[i][j]);
+// 			if (info_path->info->map[i][j] == c)
 // 			{
-// 				if ((info_path->map[i][j - 1] == ' '
-// 					|| info_path->map[i][j - 1] == 0)
-// 					|| (info_path->map[i][j + 1] == ' '
-// 					|| info_path->map[i][j + 1] == 0)
-// 					|| (info_path->map[i - 1][j] == ' '
-// 					|| j + 1 >= (int)strlen(info_path->map[i - 1]))
-// 					|| (info_path->map[i + 1][j] == ' '
-// 					|| j + 1 >= (int)strlen(info_path->map[i + 1])))
+// 				if ((info_path->info->map[i][j - 1] == ' '
+// 					|| info_path->info->map[i][j - 1] == 0)
+// 					|| (info_path->info->map[i][j + 1] == ' '
+// 					|| info_path->info->map[i][j + 1] == 0)
+// 					|| (info_path->info->map[i - 1][j] == ' '
+// 					|| j + 1 >= (int)strlen(info_path->info->map[i - 1]))
+// 					|| (info_path->info->map[i + 1][j] == ' '
+// 					|| j + 1 >= (int)strlen(info_path->info->map[i + 1])))
 // 					return (0);
 // 			}
 // 		}
@@ -367,20 +367,20 @@ int is_closed(char c) {
     }
 
     while (i < len_map) {
-        int row_length = strlen(info_path->map[i]);
+        int row_length = strlen(info_path->info->map[i]);
 
         while (j < row_length) {
-            if (info_path->map[i][j] == c || info_path->map[i][j] == '0') {
+            if (info_path->info->map[i][j] == c || info_path->info->map[i][j] == '0') {
                 // Check if the position is on the border of the map
                 if (i == 0 || i == len_map - 1 || j == 0 || j == row_length - 1) {
                     return 0;
                 }
 
                 // Check if any surrounding cells are invalid
-                if (info_path->map[i][j - 1] == ' ' || info_path->map[i][j - 1] == '\0' ||
-                    info_path->map[i][j + 1] == ' ' || info_path->map[i][j + 1] == '\0' ||
-                    info_path->map[i - 1][j] == ' ' || j >= (int)strlen(info_path->map[i - 1]) ||
-                    info_path->map[i + 1][j] == ' ' || j >= (int)strlen(info_path->map[i + 1])) {
+                if (info_path->info->map[i][j - 1] == ' ' || info_path->info->map[i][j - 1] == '\0' ||
+                    info_path->info->map[i][j + 1] == ' ' || info_path->info->map[i][j + 1] == '\0' ||
+                    info_path->info->map[i - 1][j] == ' ' || j >= (int)strlen(info_path->info->map[i - 1]) ||
+                    info_path->info->map[i + 1][j] == ' ' || j >= (int)strlen(info_path->info->map[i + 1])) {
                     return 0;
                 }
             }
@@ -393,13 +393,13 @@ int is_closed(char c) {
     // Additional checks to ensure the map is fully enclosed by '1'
     i = 0;
     while (i < len_map) {
-        int row_length = strlen(info_path->map[i]);
+        int row_length = strlen(info_path->info->map[i]);
 
         // Check the top and bottom rows
         if (i == 0 || i == len_map - 1) {
             j = 0;
             while (j < row_length) {
-                if (info_path->map[i][j] != '1') {
+                if (info_path->info->map[i][j] != '1') {
                     return 0;
                 }
                 j++;
@@ -407,7 +407,7 @@ int is_closed(char c) {
         }
 
         // Check the first and last characters of each row
-        if (info_path->map[i][0] != '1' || info_path->map[i][row_length - 1] != '1') {
+        if (info_path->info->map[i][0] != '1' || info_path->info->map[i][row_length - 1] != '1') {
             return 0;
         }
         i++;
@@ -423,18 +423,18 @@ int	check_first_last(void)
 	int	e;
 
 	i = -1;
-	while (info_path->map[0][++i])
+	while (info_path->info->map[0][++i])
 	{
-		if (info_path->map[0][i] == '0'
-			|| info_path->map[0][i] == info_path->info->pos)
+		if (info_path->info->map[0][i] == '0'
+			|| info_path->info->map[0][i] == info_path->info->pos)
 			return (0);
 	}
 	e = map_len() - 1;
 	i = -1;
-	while (info_path->map[e][++i])
+	while (info_path->info->map[e][++i])
 	{
-		if (info_path->map[e][i] == '0'
-			|| info_path->map[e][i] == info_path->info->pos)
+		if (info_path->info->map[e][i] == '0'
+			|| info_path->info->map[e][i] == info_path->info->pos)
 			return (0);
 	}
 	return (1);
@@ -456,22 +456,26 @@ int	checker_map1(char* file_name)
 	// exit(1);
 	if (!is_closed(info_path->info->pos))
 		return (0);
-    printf("TEST 5: good💪\n");
+    printf("MapIsGood\n");
 	return (1);
 }
 
 void	parsing(t_info *info, char *filename)
 {
 	//check_ext(filename);
+	int i;
 	compare_dup_text(info, filename);
 	is_valid_textures(info, filename);
 	int x = valid_rgb_f(info, filename);
 	valid_rgb_c(info, filename);
+	i = 0;
 	if(!checker_map1(filename))
     {
-		printf("TEST 5: BAD🆘\n");
+		printf("MapIsBAD🆘\n");
 		return;
 	}
+	// while(info_path->info->map[i])
+	// 	printf("%s\n", info_path->info->map[i++]);
 	if (!x)
 		printf("pist\n");
 
