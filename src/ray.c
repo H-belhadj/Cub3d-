@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/21 17:54:24 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:23:16 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,8 +226,8 @@ void draw_box(unsigned int color, int x, int y) {
     while (i < TILE_SIZE) {
         j = 0;
         while (j < TILE_SIZE) {
-	printf("haitam where is the error\n");
             mlx_put_pixel(info_path->info->img, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
+	        printf("haitam where is the error\n");
             j++;
         }
         i++;
