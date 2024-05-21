@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/21 16:29:19 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:36:31 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ typedef struct s_info
 	char 	pos;
 	mlx_t 	*mlx;
 	mlx_image_t *img;
+	void 	*image;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 	void 	*win;
 	char	**map;
 }	t_info;

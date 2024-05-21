@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/21 21:23:16 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:41:57 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,14 @@ void key_hook(mlx_key_data_t keydata, void* param)
     if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE && keydata.modifier == MLX_CONTROL)
         puts("Gotta grab it all!");
 }
+
+void    my_mlx_pixel_put(t_info *data, int x, int y, unsigned int color)
+{
+    char *dst;
+    
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
+}
 // Draw box
 void draw_box(unsigned int color, int x, int y) {
     int i, j;
@@ -226,7 +234,7 @@ void draw_box(unsigned int color, int x, int y) {
     while (i < TILE_SIZE) {
         j = 0;
         while (j < TILE_SIZE) {
-            mlx_put_pixel(info_path->info->img, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
+            my_mlx_pixel_put(info_path->info->image, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
 	        printf("haitam where is the error\n");
             j++;
         }
@@ -287,6 +295,7 @@ void init(t_info *map)
     mlx_image_to_window(map->mlx, map->img, 0, 0);
     mlx_loop_hook(map->mlx, draw_map, map);
 	printf("error\n");
+    
 	
 	//keyhook is done
     mlx_loop_hook(map->mlx, hook_key, map);
