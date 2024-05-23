@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/23 17:51:05 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:16:56 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,26 +230,48 @@ void hook_key(void *arg)
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
     {
-        if(map->player_y > 0)
-            map->player_y -= 1;
+        // Calculate the target cell
+        int target_y = map->player_y - 1;
+        int target_x = map->player_x;
+
+        // Check if the target cell is within bounds and is '0'
+        if (target_y >= 0 && map->map[target_y][target_x] == '0')
+        {
+            map->player_y = target_y;
+        }
     }
     if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
     {
-        if(map->player_y < get_height())
-            map->player_y += 1;
+        int target_y = map->player_y + 1;
+        int target_x = map->player_x;
+
+        if (target_y < get_height() && map->map[target_y][target_x] == '0')
+        {
+            map->player_y = target_y;
+        }
     }
     if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
     {
-        if(map->player_x > 0)
-            map->player_x -= 1;
+        int target_y = map->player_y;
+        int target_x = map->player_x - 1;
+
+        if (target_x >= 0 && map->map[target_y][target_x] == '0')
+        {
+            map->player_x = target_x;
+        }
     }
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
     {
-        if(map->player_x < get_width())
-            map->player_x += 1;
-    }
-    draw_map(map);
+        int target_y = map->player_y;
+        int target_x = map->player_x + 1;
 
+        if (target_x < get_width() && map->map[target_y][target_x] == '0')
+        {
+            map->player_x = target_x;
+        }
+    }
+
+    draw_map(map);
 }
 
 void key_hook(mlx_key_data_t keydata, void* param)
@@ -345,7 +367,8 @@ void init(t_info *map)
     }
 
     map->img = mlx_new_image(map->mlx, width, height);
-    if (!map->img) {
+    if (!map->img)
+    {
         fprintf(stderr, "Failed to create new image\n");
         mlx_terminate(map->mlx);
         return;
