@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/21 21:41:57 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:36:26 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@
 // 	mlx_loop(map->mlx);
 // }
 
-#include "../includes/head.h"
 
 // int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 // {
@@ -195,6 +194,25 @@
 //         }
 //     }
 // }
+// void draw_box(unsigned int color, int x, int y) {
+//     int i, j;
+//     i = 0;
+
+//     while (i < TILE_SIZE)
+//     {
+//         j = 0;
+//         while (j < TILE_SIZE)
+//         {
+//             if(x > 0 && x < get_width() * TILE_SIZE && y > 0 && y < get_height() * TILE_SIZE)
+//                 mlx_put_pixel(info_path->info->img, x, y, color);
+//             j++;
+//         }
+//         i++;
+//     }
+// 	return;
+// }
+
+#include "../includes/head.h"
 
 void hook_key(void *arg)
 {
@@ -219,86 +237,118 @@ void key_hook(mlx_key_data_t keydata, void* param)
         puts("Gotta grab it all!");
 }
 
-void    my_mlx_pixel_put(t_info *data, int x, int y, unsigned int color)
-{
-    char *dst;
-    
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-}
-// Draw box
-void draw_box(unsigned int color, int x, int y) {
-    int i, j;
-    i = 0;
-
-    while (i < TILE_SIZE) {
-        j = 0;
-        while (j < TILE_SIZE) {
-            my_mlx_pixel_put(info_path->info->image, x * TILE_SIZE + j, y * TILE_SIZE + i, color);
-	        printf("haitam where is the error\n");
-            j++;
-        }
-        i++;
-    }
-	return;
-}
-
-void draw_map(void *parm) {
-    (void)parm;
-    int i, j;
-    i = 0;
-    while (info_path->info->map[i]) {
-        j = 0;
-        while (info_path->info->map[i][j]) {
-            if (info_path->info->map[i][j] == '1'){
-                draw_box(0x000000, j, i);}
-            else if (info_path->info->map[i][j] == '0'){
-                draw_box(0xFFFFFF, j, i);}
-            j++;
-        }
-        i++;
-    }
-	return;
-}
-
 int get_height()
 {
-	int i;
-	i = 0;
-	while(info_path->info->map[i])
-		i++;
-	return (i);	
+    int i = 0;
+    while (info_path->info->map[i])
+        i++;
+    return i;
 }
 
 int get_width()
 {
-	int i;
-	int j;
-	i = 0;
-	while(info_path->info->map[i])
-	{
-		j = 0;
-		while(info_path->info->map[i][j])
-			j++;
-		i++;
-	}
-	return (j);	
-}	
+    int i = 0;
+    int max_width = 0;
+    while (info_path->info->map[i]) {
+        int j = 0;
+        while (info_path->info->map[i][j])
+            j++;
+        if (j > max_width)
+            max_width = j;
+        i++;
+    }
+    return max_width;
+}
+
+void draw_map(void *param)
+{
+    t_info *info = (t_info *)param;
+    int x, y, i, j;
+    int pixel_x, pixel_y;
+    int width = get_width();
+    int height = get_height();
+
+    if (!info || !info->map || !info->img) {
+        fprintf(stderr, "Invalid parameters or uninitialized map/image\n");
+        return;
+    }
+
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            char tile = info->map[i][j];
+            uint32_t color;
+
+            if (tile == '1') {
+                color = 0x000000FF; // Black color
+            } else if (tile == '0') {
+                color = 0xFFFFFFFF; // White color
+            } else if (strchr("NWSE", tile)) {
+                color = 0x00FF0000; // Red color for NWSE
+            } else {
+                continue; // Skip if it's neither '1', '0', nor 'NWSE'
+            }
+
+            for (y = 0; y < TILE_SIZE; y++) {
+                for (x = 0; x < TILE_SIZE; x++) {
+                    pixel_x = j * TILE_SIZE + x;
+                    pixel_y = i * TILE_SIZE + y;
+
+                    if ((uint32_t)pixel_x < info->img->width && (uint32_t)pixel_y < info->img->height) {
+                        mlx_put_pixel(info->img, pixel_x, pixel_y, color);
+                    }
+                }
+            }
+        }
+    }
+}
 
 void init(t_info *map)
 {
-	int width = get_width() * TILE_SIZE;
-	int height = get_height() * TILE_SIZE;
-	
-    map->mlx = mlx_init(width, height, "CUB3D", 1);
-    map->img = mlx_new_image(map->mlx, width, height);
-    mlx_image_to_window(map->mlx, map->img, 0, 0);
-    mlx_loop_hook(map->mlx, draw_map, map);
-	printf("error\n");
-    
-	
-	//keyhook is done
-    mlx_loop_hook(map->mlx, hook_key, map);
+    // // Actual map data
+    char *actual_map[] = {
+        "11111",
+        "10001",
+        "10S01",
+        "10001",
+        "10001",
+        "10001",
+        "11001",
+        "10001",
+        "10001",
+        "10001",
+        "10001",
+        "10001",
+        "11111",
+        NULL
+    };
 
+    map->map = actual_map;
+
+    int width = get_width() * TILE_SIZE;
+    int height = get_height() * TILE_SIZE;
+
+    map->mlx = mlx_init(WIDTH, height, "CUB3D", 1);
+    if (!map->mlx) {
+        fprintf(stderr, "Failed to initialize MLX\n");
+        return;
+    }
+
+    map->img = mlx_new_image(map->mlx, width, height);
+    if (!map->img) {
+        fprintf(stderr, "Failed to create new image\n");
+        mlx_terminate(map->mlx);
+        return;
+    }
+
+    if (mlx_image_to_window(map->mlx, map->img, 0, 0) < 0) {
+        fprintf(stderr, "Failed to put image to window\n");
+        mlx_delete_image(map->mlx, map->img);
+        mlx_terminate(map->mlx);
+        return;
+    }
+
+    draw_map(map);
+    
+    mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
 }

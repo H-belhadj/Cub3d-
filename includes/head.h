@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/21 21:36:31 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:32:03 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ typedef struct s_info
 	float		x;
 	float		y;
 	char 	pos;
-	mlx_t 	*mlx;
-	mlx_image_t *img;
-	void 	*image;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
 	void 	*win;
 	char	**map;
+	mlx_texture_t	*tex;
+	mlx_image_t		*img;
+	mlx_t			*mlx;
 }	t_info;
 
 // typedef struct s_player
