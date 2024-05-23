@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/23 18:16:56 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:56:00 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,55 +224,32 @@ void pos_player(t_info *map)
 void hook_key(void *arg)
 {
     t_info *map = (t_info*)arg;
+    int target_x = map->player_x;
+    int target_y = map->player_y;
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
-    {
-        // Calculate the target cell
-        int target_y = map->player_y - 1;
-        int target_x = map->player_x;
-
-        // Check if the target cell is within bounds and is '0'
-        if (target_y >= 0 && map->map[target_y][target_x] == '0')
-        {
-            map->player_y = target_y;
-        }
-    }
+        target_y--;
     if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
-    {
-        int target_y = map->player_y + 1;
-        int target_x = map->player_x;
-
-        if (target_y < get_height() && map->map[target_y][target_x] == '0')
-        {
-            map->player_y = target_y;
-        }
-    }
+        target_y++;
     if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
-    {
-        int target_y = map->player_y;
-        int target_x = map->player_x - 1;
-
-        if (target_x >= 0 && map->map[target_y][target_x] == '0')
-        {
-            map->player_x = target_x;
-        }
-    }
+        target_x--;
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-    {
-        int target_y = map->player_y;
-        int target_x = map->player_x + 1;
+        target_x++;
 
-        if (target_x < get_width() && map->map[target_y][target_x] == '0')
-        {
-            map->player_x = target_x;
-        }
+    if (target_y >= 0 && target_y < get_height() &&
+        target_x >= 0 && target_x < get_width() &&(
+        map->map[target_y][target_x] == '0'|| map->map[target_y][target_x] == 'N' || map->map[target_y][target_x] == 'S'|| map->map[target_y][target_x] == 'E' || map->map[target_y][target_x] == 'W'))
+    {
+        map->player_y = target_y;
+        map->player_x = target_x;
     }
 
     draw_map(map);
 }
+
 
 void key_hook(mlx_key_data_t keydata, void* param)
 {

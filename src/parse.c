@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:14:40 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/23 13:03:28 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:08:16 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,27 +223,27 @@ int	empty_line(void)
 	return (1);
 }
 
-int	player_num(void)
-{
-	int	i;
-	int	j;
-	int	c;
+int player_num(void) {
+    int i;
+    int j;
+    int c;
 
-	i = -1;
-	c = 0;
-	while (info_path->info->map[++i])
-	{
-		j = -1;
-		while (info_path->info->map[i][++j])
-		{
-			if (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'S'
-				|| info_path->info->map[i][j] == 'E' || info_path->info->map[i][j] == 'W')
-				c++;
-		}
-	}
-	if (c != 1)
-		return (0);
-	return (1);
+    i = -1;
+    c = 0;
+    while (info_path->info->map[++i]) {
+        j = -1;
+        while (info_path->info->map[i][++j]) {
+            if (info_path->info->map[i][j] == 'N' ||
+                info_path->info->map[i][j] == 'S' ||
+                info_path->info->map[i][j] == 'E' ||
+                info_path->info->map[i][j] == 'W') {
+                c++;
+            }
+        }
+    }
+    if (c != 1)
+        return (0);
+    return (1);
 }
 int	check_existance(char c)
 {
@@ -287,10 +287,6 @@ int	check_content(void)
 	}
 	if (!player_num())
 		return (0);
-	// if (!check_existance('0') || !check_existance('1')
-	// 	|| !check_existance('\n'))
-	// 	return (0);
-	// printf("popopopo\n");
 	return (1);
 }
 void	player_pos(void)
@@ -324,39 +320,6 @@ int	map_len(void)
 		i++;
 	return (i);
 }
-// int	is_closed(char c)
-// {
-// 	int	i;
-// 	int	j;
-// 	int len_map = map_len();
-// 	// printf("len_map  %d \n", len_map);
-	
-// 	i = -1;
-// 	while (info_path->info->map[++i] && i < len_map)
-// 	{
-// 		printf("%s \n", info_path->info->map[i]);
-// 		j = -1;
-// 		while (info_path->info->map[i][++j])
-// 		{
-// 			// printf("%c \n", info_path->info->map[i][j]);
-// 			if (info_path->info->map[i][j] == c)
-// 			{
-// 				if ((info_path->info->map[i][j - 1] == ' '
-// 					|| info_path->info->map[i][j - 1] == 0)
-// 					|| (info_path->info->map[i][j + 1] == ' '
-// 					|| info_path->info->map[i][j + 1] == 0)
-// 					|| (info_path->info->map[i - 1][j] == ' '
-// 					|| j + 1 >= (int)strlen(info_path->info->map[i - 1]))
-// 					|| (info_path->info->map[i + 1][j] == ' '
-// 					|| j + 1 >= (int)strlen(info_path->info->map[i + 1])))
-// 					return (0);
-// 			}
-// 		}
-// 	}
-// 	return (1);
-// }
-
-
 int is_closed(char c) {
     int i = 0;
     int j = 0;
