@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 19:58:34 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/21 13:14:45 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:06:28 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av)
 {
 	t_info	*info ;
 	char	**str;
-	t_info  map;
+	// t_info  map;
 	// char	*take;
 	int		i;
 
@@ -55,7 +55,8 @@ int	main(int ac, char **av)
 	// printf("+color 1 : %s\n", info->first_color);
 	// printf("+color 2 : %s\n", info->second_color);
 	parsing(info, av[1]);
-	init(&map);
+	pos_player(info);
+	init(info);
 	// run_game();
 	arr_free(str);
 	// system("leaks cub3D");

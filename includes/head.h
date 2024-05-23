@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/23 10:32:03 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:49:46 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_info
 	mlx_texture_t	*tex;
 	mlx_image_t		*img;
 	mlx_t			*mlx;
+	int		player_x;
+	int		player_y;
 }	t_info;
 
 // typedef struct s_player
@@ -110,6 +112,11 @@ char	*take_first_string(char *line);
 char	*start_with(char *first_word, char *target, size_t size);
 int		is_valid_textures(t_info *info, char *filename);
 void check_get_info(t_info	*info, char *filename);
+void	player_pos(void);
+int get_height();
+int get_width();
+void draw_map(void *param);
+void pos_player(t_info *map);
 int32_t	run_game(void);
 void init(t_info *map);
 

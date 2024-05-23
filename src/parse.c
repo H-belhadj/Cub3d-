@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:14:40 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/21 17:09:03 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:03:28 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,7 +466,7 @@ void	parsing(t_info *info, char *filename)
 	int i;
 	compare_dup_text(info, filename);
 	is_valid_textures(info, filename);
-	int x = valid_rgb_f(info, filename);
+	valid_rgb_f(info, filename);
 	valid_rgb_c(info, filename);
 	i = 0;
 	if(!checker_map1(filename))
@@ -476,7 +476,7 @@ void	parsing(t_info *info, char *filename)
 	}
 	// while(info_path->info->map[i])
 	// 	printf("%s\n", info_path->info->map[i++]);
-	if (!x)
-		printf("pist\n");
+	// if (!x)
+	// 	printf("pist\n");
 
 }

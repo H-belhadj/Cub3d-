@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/23 12:36:26 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:51:05 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,41 +110,18 @@
 // 		info_path->info->img->instances[0].x += 5;
 // }
 
-// // void player_view(t_info *map, int y, int x)
-// // {
-// // 	if(map->map[y][x] == 'N')
-// // 		map->view = (3 * M_PI) / 2;
-// // 	else if(map->map[y][x] == 'S')
-// // 		map->view = M_PI / 2;
-// // 	else if(map->map[y][x] == 'E')
-// // 		map->view = 0;
-// // 	else if(map->map[y][x] == 'W')
-// // 		map->view = M_PI;
-// // }
+// void player_view(t_info *map, int y, int x)
+// {
+// 	if(map->map[y][x] == 'N')
+// 		map->view = (3 * M_PI) / 2;
+// 	else if(map->map[y][x] == 'S')
+// 		map->view = M_PI / 2;
+// 	else if(map->map[y][x] == 'E')
+// 		map->view = 0;
+// 	else if(map->map[y][x] == 'W')
+// 		map->view = M_PI;
+// }
 
-// // void player_pos(t_info *map)
-// // {
-// // 	int i;
-// // 	int j;
-
-// // 	i = -1;
-// // 	while(map->map[++i])
-// // 	{
-// // 		j = 0;
-// // 		while(map->map[i][j])
-// // 		{
-// // 			if(ft_strchr("NSWE", map->map[i][j]))
-// // 			{
-// // 				map->x = j * PIXEL_SIZE;
-// // 				map->y = i * PIXEL_SIZE;
-// // 				player_view(map, i, j);
-// // 				return;
-// // 			}
-// // 			j++;
-// // 		}
-// // 	}
-	
-// // }
 
 // void init(t_info *map)
 // {
@@ -214,20 +191,65 @@
 
 #include "../includes/head.h"
 
+void pos_player(t_info *map)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while(map->map[++i])
+	{
+		j = 0;
+		while(map->map[i][j])
+		{
+			if(ft_strchr("NSWE", map->map[i][j]))
+			{
+				map->player_x = j;
+				map->player_y = i;
+				// player_view(map, i, j);
+				return;
+			}
+			j++;
+		}
+	}
+	
+}
+
+// void player_draw(t_info *map)
+// {
+    
+// }
+
+
 void hook_key(void *arg)
 {
     t_info *map = (t_info*)arg;
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
+
     if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
-        map->img->instances[0].y -= 5;    
+    {
+        if(map->player_y > 0)
+            map->player_y -= 1;
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
-        map->img->instances[0].y += 5;
+    {
+        if(map->player_y < get_height())
+            map->player_y += 1;
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
-        map->img->instances[0].x -= 5;
+    {
+        if(map->player_x > 0)
+            map->player_x -= 1;
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-        map->img->instances[0].x += 5;
+    {
+        if(map->player_x < get_width())
+            map->player_x += 1;
+    }
+    draw_map(map);
+
 }
 
 void key_hook(mlx_key_data_t keydata, void* param)
@@ -268,32 +290,40 @@ void draw_map(void *param)
     int width = get_width();
     int height = get_height();
 
-    if (!info || !info->map || !info->img) {
+    if (!info || !info->map || !info->img)
+    {
         fprintf(stderr, "Invalid parameters or uninitialized map/image\n");
         return;
     }
+
 
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
             char tile = info->map[i][j];
             uint32_t color;
 
-            if (tile == '1') {
+            if (tile == '1')
+            {
                 color = 0x000000FF; // Black color
-            } else if (tile == '0') {
-                color = 0xFFFFFFFF; // White color
-            } else if (strchr("NWSE", tile)) {
-                color = 0x00FF0000; // Red color for NWSE
-            } else {
-                continue; // Skip if it's neither '1', '0', nor 'NWSE'
             }
-
+            else if (tile == '0')
+            {
+                color = 0xFFFFFFFF; // White color
+            } 
+            if (j == info->player_x && i == info->player_y)
+                color = 0xFF0000FF; // Red color for NWSE
+            
+            printf("width==%d || height==%d\n", width, height);
+            printf("j==%d || i==%d\n", j, i);
+            printf("x==%d || y==%d\n", info->player_x, info->player_y);
             for (y = 0; y < TILE_SIZE; y++) {
                 for (x = 0; x < TILE_SIZE; x++) {
                     pixel_x = j * TILE_SIZE + x;
                     pixel_y = i * TILE_SIZE + y;
 
-                    if ((uint32_t)pixel_x < info->img->width && (uint32_t)pixel_y < info->img->height) {
+                    // if ((uint32_t)pixel_x < info->img->width && (uint32_t)pixel_y < info->img->height) {
+                    if((pixel_x > 0 || pixel_x < (int)info->img->width) && (pixel_y > 0 || pixel_y < (int)info->img->height))
+                    {
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                     }
                 }
@@ -304,30 +334,11 @@ void draw_map(void *param)
 
 void init(t_info *map)
 {
-    // // Actual map data
-    char *actual_map[] = {
-        "11111",
-        "10001",
-        "10S01",
-        "10001",
-        "10001",
-        "10001",
-        "11001",
-        "10001",
-        "10001",
-        "10001",
-        "10001",
-        "10001",
-        "11111",
-        NULL
-    };
-
-    map->map = actual_map;
 
     int width = get_width() * TILE_SIZE;
     int height = get_height() * TILE_SIZE;
 
-    map->mlx = mlx_init(WIDTH, height, "CUB3D", 1);
+    map->mlx = mlx_init(width, height, "CUB3D", 0);
     if (!map->mlx) {
         fprintf(stderr, "Failed to initialize MLX\n");
         return;
@@ -347,8 +358,6 @@ void init(t_info *map)
         return;
     }
 
-    draw_map(map);
-    
     mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
 }
