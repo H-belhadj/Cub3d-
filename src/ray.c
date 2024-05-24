@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/24 12:37:02 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:53:54 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,6 +271,7 @@ void hook_key(void *arg)
         (map->map[target_y][target_x] == '0' || map->map[target_y][target_x] == 'N' || map->map[target_y][target_x] == 'S' || map->map[target_y][target_x] == 'E' || map->map[target_y][target_x] == 'W'))
     {
         // Draw line from player to target
+    draw_map(map);
         drawLine(map, map->player_x * TILE_SIZE, map->player_y * TILE_SIZE, 50, 50);
         
         // Update player's position
@@ -278,7 +279,6 @@ void hook_key(void *arg)
         map->player_y = target_y;
     }
 
-    draw_map(map);
 }
 
 
