@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/24 10:34:51 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:37:02 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,8 @@
 
 #include "../includes/head.h"
 
+
+
 void pos_player(t_info *map)
 {
 	int i;
@@ -215,11 +217,36 @@ void pos_player(t_info *map)
 	
 }
 
-// void player_draw(t_info *map)
-// {
-    
-// }
+void drawLine(t_info *map, float x1, float y1, float x2, float y2)
+{
+    float dx, dy, step, x, y;
+    int i;
 
+    dx = x2 - x1;
+    dy = y2 - y1;
+
+    if (fabs(dx) >= fabs(dy))
+        step = fabs(dx);
+    else
+        step = fabs(dy);
+
+    dx = dx / step;
+    dy = dy / step;
+    x = x1;
+    y = y1;
+
+    uint32_t color = 0xFF0000FF; // Red color (format: 0xRRGGBBAA)
+
+    i = 0;
+
+    while (i <= step)
+    {
+        mlx_put_pixel(map->img, (int)x, (int)y, color); // Set the color to red
+        x += dx;
+        y += dy;
+        i++;
+    }
+}
 
 void hook_key(void *arg)
 {
@@ -240,11 +267,15 @@ void hook_key(void *arg)
         target_x++;
 
     if (target_y >= 0 && target_y < get_height() &&
-        target_x >= 0 && target_x < get_width() &&(
-        map->map[target_y][target_x] == '0'|| map->map[target_y][target_x] == 'N' || map->map[target_y][target_x] == 'S'|| map->map[target_y][target_x] == 'E' || map->map[target_y][target_x] == 'W'))
+        target_x >= 0 && target_x < get_width() &&
+        (map->map[target_y][target_x] == '0' || map->map[target_y][target_x] == 'N' || map->map[target_y][target_x] == 'S' || map->map[target_y][target_x] == 'E' || map->map[target_y][target_x] == 'W'))
     {
-        map->player_y = target_y;
+        // Draw line from player to target
+        drawLine(map, map->player_x * TILE_SIZE, map->player_y * TILE_SIZE, 50, 50);
+        
+        // Update player's position
         map->player_x = target_x;
+        map->player_y = target_y;
     }
 
     draw_map(map);
@@ -302,25 +333,14 @@ void draw_map(void *param)
         {
             char tile = info->map[i][j];
             uint32_t color;
-            if(height % TILE_SIZE == 0)
-            {
-                printf("haitambelhadj\n");
-                color = 0xFF0000FF; // Black color
-            }
-            if(width % TILE_SIZE == 0)
-             {
-                printf("haitambelhadj\n");
-                color = 0xFF0000FF; // Black color
-            }
-            else
-            {
+    
                 if (tile == '1')
                     color = 0x000000FF; // Black color
                 else if (tile == '0')
                     color = 0xFFFFFFFF; // White color
                 if (j == info->player_x && i == info->player_y)
                     color = 0xFF0000FF; // Red color for NWSE
-            }
+                  
                 
             // printf("width==%d || height==%d\n", width, height);
             // printf("j==%d || i==%d\n", j, i);
@@ -339,15 +359,15 @@ void draw_map(void *param)
                         mlx_put_pixel(info->img, pixel_x, pixel_y, 0x000000FF);
                     }
                     else
-                    {
-                        // Draw inner pixel with the tile's color
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
-                    }
                 }
             }
+            // drow_player();
         }
     }
 }
+
+
 
 void init(t_info *map)
 {

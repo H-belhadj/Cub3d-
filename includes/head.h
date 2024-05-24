@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/24 10:06:24 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:54:22 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 #define HEIGHT 512
 
 # define PIXEL_SIZE 50
+
+
+
+// Initialize the player with default values
 
 
 typedef struct s_info
