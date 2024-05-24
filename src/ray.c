@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/23 19:56:00 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:34:51 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,33 +296,51 @@ void draw_map(void *param)
     }
 
 
-    for (i = 0; i < height; i++) {
-        for (j = 0; j < width; j++) {
+    for (i = 0; i < height; i++)
+    {
+        for (j = 0; j < width; j++)
+        {
             char tile = info->map[i][j];
             uint32_t color;
-
-            if (tile == '1')
+            if(height % TILE_SIZE == 0)
             {
-                color = 0x000000FF; // Black color
+                printf("haitambelhadj\n");
+                color = 0xFF0000FF; // Black color
             }
-            else if (tile == '0')
+            if(width % TILE_SIZE == 0)
+             {
+                printf("haitambelhadj\n");
+                color = 0xFF0000FF; // Black color
+            }
+            else
             {
-                color = 0xFFFFFFFF; // White color
-            } 
-            if (j == info->player_x && i == info->player_y)
-                color = 0xFF0000FF; // Red color for NWSE
-            
-            printf("width==%d || height==%d\n", width, height);
-            printf("j==%d || i==%d\n", j, i);
-            printf("x==%d || y==%d\n", info->player_x, info->player_y);
-            for (y = 0; y < TILE_SIZE; y++) {
-                for (x = 0; x < TILE_SIZE; x++) {
+                if (tile == '1')
+                    color = 0x000000FF; // Black color
+                else if (tile == '0')
+                    color = 0xFFFFFFFF; // White color
+                if (j == info->player_x && i == info->player_y)
+                    color = 0xFF0000FF; // Red color for NWSE
+            }
+                
+            // printf("width==%d || height==%d\n", width, height);
+            // printf("j==%d || i==%d\n", j, i);
+            // printf("x==%d || y==%d\n", info->player_x, info->player_y);
+            for (y = 0; y < TILE_SIZE; y++)
+            {
+                for (x = 0; x < TILE_SIZE; x++)
+                {
                     pixel_x = j * TILE_SIZE + x;
                     pixel_y = i * TILE_SIZE + y;
 
-                    // if ((uint32_t)pixel_x < info->img->width && (uint32_t)pixel_y < info->img->height) {
-                    if((pixel_x > 0 || pixel_x < (int)info->img->width) && (pixel_y > 0 || pixel_y < (int)info->img->height))
+                    // Check if the pixel is on the border of the tile
+                    if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
                     {
+                        // Draw border with black color
+                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x000000FF);
+                    }
+                    else
+                    {
+                        // Draw inner pixel with the tile's color
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                     }
                 }
