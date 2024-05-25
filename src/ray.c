@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/24 12:53:54 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:10:34 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,9 +206,9 @@ void pos_player(t_info *map)
 		{
 			if(ft_strchr("NSWE", map->map[i][j]))
 			{
-				map->player_x = j;
-				map->player_y = i;
-				// player_view(map, i, j);
+				map->player_x = (j + 0.5) * TILE_SIZE - TILE_PLAYER_SIZE / 2;
+				map->player_y = (i + 0.5) * TILE_SIZE - TILE_PLAYER_SIZE / 2;
+                map->map[i][j] = '0';
 				return;
 			}
 			j++;
@@ -248,6 +248,8 @@ void drawLine(t_info *map, float x1, float y1, float x2, float y2)
     }
 }
 
+#define PLAYER_SPEED 2
+
 void hook_key(void *arg)
 {
     t_info *map = (t_info*)arg;
@@ -258,26 +260,28 @@ void hook_key(void *arg)
         mlx_close_window(map->mlx);
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
-        target_y--;
+        target_y -= PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
-        target_y++;
+        target_y += PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
-        target_x--;
+        target_x -= PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-        target_x++;
+        target_x += PLAYER_SPEED;
 
-    if (target_y >= 0 && target_y < get_height() &&
-        target_x >= 0 && target_x < get_width() &&
-        (map->map[target_y][target_x] == '0' || map->map[target_y][target_x] == 'N' || map->map[target_y][target_x] == 'S' || map->map[target_y][target_x] == 'E' || map->map[target_y][target_x] == 'W'))
+    int map_x = target_x / TILE_SIZE;
+    int map_y = target_y / TILE_SIZE;
+
+    printf("w: %d, h: %d => %c\n", map_x, map_y, map->map[map_y][map_x]);
+    if ( map->map[map_y][map_x] == '0' )
     {
         // Draw line from player to target
-    draw_map(map);
-        drawLine(map, map->player_x * TILE_SIZE, map->player_y * TILE_SIZE, 50, 50);
         
         // Update player's position
+        // drawLine(map, map->player_x , map->player_y , 15, 15);
         map->player_x = target_x;
         map->player_y = target_y;
     }
+        draw_map(map);
 
 }
 
@@ -336,10 +340,8 @@ void draw_map(void *param)
     
                 if (tile == '1')
                     color = 0x000000FF; // Black color
-                else if (tile == '0')
+                else 
                     color = 0xFFFFFFFF; // White color
-                if (j == info->player_x && i == info->player_y)
-                    color = 0xFF0000FF; // Red color for NWSE
                   
                 
             // printf("width==%d || height==%d\n", width, height);
@@ -354,10 +356,7 @@ void draw_map(void *param)
 
                     // Check if the pixel is on the border of the tile
                     if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
-                    {
-                        // Draw border with black color
-                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x000000FF);
-                    }
+                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
                     else
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                 }
@@ -365,7 +364,24 @@ void draw_map(void *param)
             // drow_player();
         }
     }
+
+    for (i = 0; i < TILE_PLAYER_SIZE; ++i) {
+        for (j = 0; j < TILE_PLAYER_SIZE; ++j) {
+
+            int x = info->player_x + i;
+            int y = info->player_y + j;
+
+            mlx_put_pixel(info->img, x, y, 0x0000FFFF);
+
+        }
+    }
 }
+
+// void draw_plyer(void *param)
+// {
+    
+    
+// }
 
 
 

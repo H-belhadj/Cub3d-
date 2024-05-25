@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/24 11:54:22 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/25 17:50:24 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "../MLX/MLX42.h"
 
 
-# define TILE_PLAYER_SIZE 32
+# define TILE_PLAYER_SIZE 9
 # define TILE_SIZE 64
 #define WIDTH 512
 #define HEIGHT 512
