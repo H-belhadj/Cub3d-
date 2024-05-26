@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/25 19:02:18 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/26 11:57:18 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define SPEED_R 3
 # define M_SPEED_R 1
 # define SPEED_M 2
+# define FOV 60
 
 
 # define PIXEL_SIZE 50
@@ -123,6 +124,8 @@ typedef struct s_info
 	int		player_y;
 	int			nbr_rays;
 		t_ray		*ray;
+	double angle;
+
 
 }	t_info;
 

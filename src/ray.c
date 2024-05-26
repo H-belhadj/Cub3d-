@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/26 10:42:50 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:17:22 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,24 +239,24 @@ void	turn_left(t_info *info,int flag)
 {
 	info->player.dirturn = 1;
 	if (flag)
-		info->player.alpha += info->player.dirturn
+		info->angle += info->player.dirturn
 			* info->player.speedretate_m;
 	else
-		info->player.alpha += info->player.dirturn
+		info->angle += info->player.dirturn
 			*  info->player.speedretate;
-	vapsangle(&info->player.alpha);
+	vapsangle(&info->angle);
 }
 
 void	turn_right(t_info *info,int flag)
 {
 	info->player.dirturn = -1;
 	if (flag)
-		info->player.alpha += info->player.dirturn
+		info->angle += info->player.dirturn
 			*  info->player.speedretate_m;
 	else
-		info->player.alpha += info->player.dirturn
+		info->angle += info->player.dirturn
 			*  info->player.speedretate;
-	vapsangle(&info->player.alpha);
+	vapsangle(&info->angle);
 }
 
 void	check_dir_angle(t_info *info)
@@ -324,11 +324,18 @@ void drawLine(t_info *map, float x1, float y1, float x2, float y2)
 
     while (i <= step)
     {
-        mlx_put_pixel(map->img, (int)x, (int)y, color); // Set the color to red
+
+        if (map->map[(int)y / TILE_SIZE][(int)x /TILE_SIZE] != '1')
+            mlx_put_pixel(map->img, (int)x, (int)y, color); // Set the color to red
         x += dx;
         y += dy;
         i++;
     }
+}
+
+double deg2rad(double degrees)
+{
+    return degrees * (M_PI / 180.0);
 }
 
 
@@ -349,6 +356,10 @@ void hook_key(void *arg)
         target_x -= PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_D))
         target_x += PLAYER_SPEED;
+    if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
+        map->player.alpha -= deg2rad(3);
+    else if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT)) 
+        map->player.alpha += deg2rad(3);
 
     int map_x = target_x / TILE_SIZE;
     int map_y = target_y / TILE_SIZE;
@@ -363,7 +374,15 @@ void hook_key(void *arg)
         map->player_y = target_y;
     }
         draw_map(map);
-        drawLine(map, map->player_x, map->player_y, map->player_x + 50, map->player_y + 50);
+        float xf, yf;
+        map->angle = map->player.alpha - deg2rad(FOV / 2);
+        xf = cos(map->angle) * 100;
+        yf = sin(map->angle) * 100;
+
+        // mlx_put_pixel(map->img, map->player_x, map->player_y,);
+
+        
+        drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,map->player_x + xf + 4.5 , map->player_y + yf + 4.5);
         // drawray(map);
 }
 
