@@ -6,12 +6,13 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/25 17:50:24 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:02:18 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEAD_H
 # define HEAD_H
+
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,10 +27,17 @@
 # include "../MLX/MLX42.h"
 
 
+#define CUBE 10
 # define TILE_PLAYER_SIZE 9
 # define TILE_SIZE 64
 #define WIDTH 512
 #define HEIGHT 512
+# define MSIZE 170
+#define PLAYER_SPEED 2
+# define SPEED_R 3
+# define M_SPEED_R 1
+# define SPEED_M 2
+
 
 # define PIXEL_SIZE 50
 
@@ -37,6 +45,53 @@
 
 // Initialize the player with default values
 
+
+typedef struct s_ray
+{
+	double	angle;
+	double	dis;
+	double	x;
+	double	y;
+	int		up;
+	int		down;
+	int		left;
+	int		right;
+	double	hwallx;
+	double	hwally;
+	double	vwallx;
+	double	vwally;
+	double	hdis;
+	double	vdis;
+	int		iswallh;
+	int		iswallv;
+	double	hx;
+	double	hy;
+	double	hxstep;
+	double	hystep;
+	double	hxnext;
+	double	hynext;
+	double	vx;
+	double	vy;
+	double	vxstep;
+	double	vystep;
+	double	vxnext;
+	double	vynext;
+	int		v;
+	int		h;
+}			t_ray;
+
+typedef struct s_player
+{
+	double	x;
+	double	y;
+	double	dirturn;
+	double	dirwalk;
+	double	dirwalkx;
+	double	alpha;
+	double	speedmove;
+	double	speedretate;
+	double	speedretate_m;
+}		t_player;
 
 typedef struct s_info
 {
@@ -55,14 +110,20 @@ typedef struct s_info
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
+	double	rad;
 	int		endian;
 	void 	*win;
 	char	**map;
+	double		viewangle;
 	mlx_texture_t	*tex;
 	mlx_image_t		*img;
 	mlx_t			*mlx;
+	t_player	player;
 	int		player_x;
 	int		player_y;
+	int			nbr_rays;
+		t_ray		*ray;
+
 }	t_info;
 
 // typedef struct s_player

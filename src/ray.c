@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/25 18:10:34 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:42:50 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,89 @@ void pos_player(t_info *map)
 	
 }
 
+void	var_init(t_info *info)
+{
+	info->viewangle = 60 * (M_PI / 180);
+	info->player.speedretate = SPEED_R * (M_PI / 180);
+	// info->player.speedretate_m = M_SPEED_R * (M_PI / 180);
+	info->player.speedmove = (CUBE * SPEED_M) / 20 ;
+	info->player.dirturn = 0;
+	info->player.dirwalk = 0;
+	info->rad = M_PI / 180;
+}
+
+void	vapsangle(double *angle)
+{
+	*angle = fmod(*angle, 2 * M_PI);
+	if (*angle < 0)
+		*angle += 2 * M_PI;
+}
+
+void	turn_left(t_info *info,int flag)
+{
+	info->player.dirturn = 1;
+	if (flag)
+		info->player.alpha += info->player.dirturn
+			* info->player.speedretate_m;
+	else
+		info->player.alpha += info->player.dirturn
+			*  info->player.speedretate;
+	vapsangle(&info->player.alpha);
+}
+
+void	turn_right(t_info *info,int flag)
+{
+	info->player.dirturn = -1;
+	if (flag)
+		info->player.alpha += info->player.dirturn
+			*  info->player.speedretate_m;
+	else
+		info->player.alpha += info->player.dirturn
+			*  info->player.speedretate;
+	vapsangle(&info->player.alpha);
+}
+
+void	check_dir_angle(t_info *info)
+{
+	if (info->pos == 'W')
+		info->player.alpha = M_PI;
+	if (info->pos == 'E')
+		info->player.alpha = 0;
+	if (info->pos == 'S')
+		info->player.alpha = M_PI / 2;
+	if (info->pos == 'N')
+		info->player.alpha = 3 * M_PI / 2;
+}
+
+void	line(    t_info *data, double dis, double ang, int color)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	i = 0;
+	while (i < dis)
+	{
+		x = data->player_x + i * cos(ang);
+		y = data->player_y + i * sin(ang);
+		if ((x >= 0 && x < data->player_x) && (y >= 0 && y < data->player_y))
+			mlx_put_pixel(data->img ,x, y, color);
+		i++;
+	}
+}
+
+void	drawray(    t_info *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_rays)
+	{
+		line(data ,data->ray[i].dis, data->ray[i].angle, 0xFFFFFF);
+		i++;
+	}
+}
+
 void drawLine(t_info *map, float x1, float y1, float x2, float y2)
 {
     float dx, dy, step, x, y;
@@ -248,7 +331,6 @@ void drawLine(t_info *map, float x1, float y1, float x2, float y2)
     }
 }
 
-#define PLAYER_SPEED 2
 
 void hook_key(void *arg)
 {
@@ -259,13 +341,13 @@ void hook_key(void *arg)
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
 
-    if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
+    if (mlx_is_key_down(map->mlx, MLX_KEY_W))
         target_y -= PLAYER_SPEED;
-    if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
+    if (mlx_is_key_down(map->mlx, MLX_KEY_S))
         target_y += PLAYER_SPEED;
-    if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
+    if (mlx_is_key_down(map->mlx, MLX_KEY_A))
         target_x -= PLAYER_SPEED;
-    if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
+    if (mlx_is_key_down(map->mlx, MLX_KEY_D))
         target_x += PLAYER_SPEED;
 
     int map_x = target_x / TILE_SIZE;
@@ -277,12 +359,12 @@ void hook_key(void *arg)
         // Draw line from player to target
         
         // Update player's position
-        // drawLine(map, map->player_x , map->player_y , 15, 15);
         map->player_x = target_x;
         map->player_y = target_y;
     }
         draw_map(map);
-
+        drawLine(map, map->player_x, map->player_y, map->player_x + 50, map->player_y + 50);
+        // drawray(map);
 }
 
 
