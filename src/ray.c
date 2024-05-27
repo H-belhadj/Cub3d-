@@ -6,192 +6,11 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/27 13:24:27 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:24:47 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
-// // #define map->width 512
-// // #define HEIGHT 512
-
-// // static mlx_image_t* image;
-
-// // // -----------------------------------------------------------------------------
-
-// int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-// {
-//     return (r << 24 | g << 16 | b << 8 | a);
-// }
-
-// void ft_randomize(void* param)
-// {
-// 	(void)param;
-// 	for (uint32_t i = 0; i < WIDTH; ++i)
-// 	{
-// 		for (uint32_t y = 0; y < HEIGHT; ++y)
-// 		{
-// 			uint32_t color = ft_pixel(255, 255, 255, 255);
-// 			mlx_put_pixel(info_path->info->img, i, y, color);
-// 		}
-// 	}
-// }
-
-// // void ft_hook(void* param)
-// // {
-// // 	mlx_t* mlx = param;
-
-// // 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-// // 		mlx_close_window(mlx);
-// // 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-// // 		image->instances[0].y -= 5;
-// // 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-// // 		image->instances[0].y += 5;
-// // 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-// // 		image->instances[0].x -= 5;
-// // 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-// // 		image->instances[0].x += 5;
-// // }
-
-
-// // // -----------------------------------------------------------------------------
-
-// // int32_t run_game(void)
-// // {
-// // 	mlx_t* mlx;
-
-// // 	// Gotta error check this stuff
-// // 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-// // 	{
-// // 		puts(mlx_strerror(mlx_errno));
-// // 		return(EXIT_FAILURE);
-// // 	}
-// // 	if (!(image = mlx_new_image(mlx, 12, 12)))
-// // 	{
-// // 		mlx_close_window(mlx);
-// // 		puts(mlx_strerror(mlx_errno));
-// // 		return(EXIT_FAILURE);
-// // 	}
-// // 	if (mlx_image_to_window(mlx, image, 256 - 6, 256 - 6) == -1)
-// // 	{
-// // 		mlx_close_window(mlx);
-// // 		puts(mlx_strerror(mlx_errno));
-// // 		return(EXIT_FAILURE);
-// // 	}
-	
-// // 	mlx_loop_hook(mlx, ft_randomize, mlx);
-// // 	mlx_loop_hook(mlx, ft_hook, mlx);
-
-// // 	mlx_loop(mlx);
-// // 	mlx_terminate(mlx);
-// // 	return (EXIT_SUCCESS);
-// // }
-
-// //key HOOK function
-
-// void	key_hook(mlx_key_data_t keydata, void* param)
-// {
-// 	(void)param;
-// 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE && keydata.modifier == MLX_CONTROL)
-// 		puts("Gotta grab it all!");
-// }
-
-// void hook_key(void *arg)
-// {
-// 	info_path->info->mlx = arg;
-// 	if (mlx_is_key_down(info_path->info->mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(info_path->info->mlx);
-// 	if (mlx_is_key_down(info_path->info->mlx, MLX_KEY_UP))
-// 		info_path->info->img->instances[0].y -= 5;	
-// 	if (mlx_is_key_down(info_path->info->mlx, MLX_KEY_DOWN))
-// 		info_path->info->img->instances[0].y += 5;
-// 	if (mlx_is_key_down(info_path->info->mlx, MLX_KEY_LEFT))
-// 		info_path->info->img->instances[0].x -= 5;
-// 	if (mlx_is_key_down(info_path->info->mlx, MLX_KEY_RIGHT))
-// 		info_path->info->img->instances[0].x += 5;
-// }
-
-// void player_view(t_info *map, int y, int x)
-// {
-// 	if(map->map[y][x] == 'N')
-// 		map->view = (3 * M_PI) / 2;
-// 	else if(map->map[y][x] == 'S')
-// 		map->view = M_PI / 2;
-// 	else if(map->map[y][x] == 'E')
-// 		map->view = 0;
-// 	else if(map->map[y][x] == 'W')
-// 		map->view = M_PI;
-// }
-
-
-// void init(t_info *map)
-// {
-// 	map->mlx = mlx_init(WIDTH, HEIGHT, "CUB3D", 1);
-// 	map->img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
-// 	mlx_image_to_window(map->mlx, map->img, 0, 0);
-
-
-// 	// Drawing LOGIC
-// 	//{
-// 				// mlx_loop_hook(mlx, drawing map, mlx);
-// 			// mlx_loop_hook(map->mlx, hook_key, &map);
-
-// 				mlx_loop_hook(map->mlx, ft_randomize, map);
-// 	mlx_loop_hook(map->mlx, hook_key, map);
-// 		// printf("error\n");
-// 			//======>drawing map:
-// 			/**
-// 			 * 
-// 			 * 1- loopi 3la image 
-			
-// 			// */
-// 			// while(info_path->info->map[i])
-// 			// 	printf("%s\n", info_path->info->map[i++]);
-// 	//}
-// 	// KEY HOOK LOGIC
-// 	// hook_key(map->mlx);
-// 	mlx_loop(map->mlx);
-// }
-
-
-// int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-// {
-//     return (r << 24 | g << 16 | b << 8 | a);
-// }
-
-// void ft_randomize(void* param)
-// {
-//     t_info *map = (t_info*)param;
-
-//     for (uint32_t i = 0; i < 128; ++i)
-//     {
-//         for (uint32_t y = 0; y < 128; ++y)
-//         {
-//             uint32_t color = ft_pixel(255, 255, 255, 255);
-//             mlx_put_pixel(map->img, i, y, color); // Corrected the argument here
-//         }
-//     }
-// }
-// void draw_box(unsigned int color, int x, int y) {
-//     int i, j;
-//     i = 0;
-
-//     while (i < TILE_SIZE)
-//     {
-//         j = 0;
-//         while (j < TILE_SIZE)
-//         {
-//             if(x > 0 && x < get_width() * TILE_SIZE && y > 0 && y < get_height() * TILE_SIZE)
-//                 mlx_put_pixel(info_path->info->img, x, y, color);
-//             j++;
-//         }
-//         i++;
-//     }
-// 	return;
-// }
-
-#include "../includes/head.h"
-
-
 
 void pos_player(t_info *map)
 {
@@ -221,7 +40,6 @@ void	var_init(t_info *info)
 {
 	info->viewangle = 60 * (M_PI / 180);
 	info->player.speedretate = SPEED_R * (M_PI / 180);
-	// info->player.speedretate_m = M_SPEED_R * (M_PI / 180);
 	info->player.speedmove = (CUBE * SPEED_M) / 20 ;
 	info->player.dirturn = 0;
 	info->player.dirwalk = 0;
@@ -283,35 +101,6 @@ void	check_dir_angle(t_info *info)
 
 }
 
-// void	line(    t_info *data, double dis, double ang, int color)
-// {
-// 	int	x;
-// 	int	y;
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < dis)
-// 	{
-// 		x = data->player_x + i * cos(ang);
-// 		y = data->player_y + i * sin(ang);
-// 		if ((x >= 0 && x < data->player_x) && (y >= 0 && y < data->player_y))
-// 			mlx_put_pixel(data->img ,x, y, color);
-// 		i++;
-// 	}
-// }
-
-// void	drawray(    t_info *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < data->nbr_rays)
-// 	{
-// 		line(data ,data->ray[i].dis, data->ray[i].angle, 0xFFFFFF);
-// 		i++;
-// 	}
-// }
-
 int	lenofmap(char **arr)
 {
 	int	len;
@@ -321,6 +110,7 @@ int	lenofmap(char **arr)
 		len++;
 	return (len);
 }
+//mo3adalat vitafors
 
 t_cord	smallest(t_info *mlx, t_cord c1, t_cord c2)
 {
@@ -340,21 +130,12 @@ t_cord	smallest(t_info *mlx, t_cord c1, t_cord c2)
 	return (c2);
 }
 
-bool	has_wall(t_info *mlx, float x, float y)
-{
-
-    mlx->rows = ft_strlen(mlx->map[0]);
-    mlx->cols = lenofmap(mlx->map);
-
-
-    // int width = get_width();
-    // int height = get_height();
-	if (x < 0 || x > mlx->width || y < 0 || y > mlx->height)
-		return (true);
-	x = floor(x / TILE_SIZE);
-	y = floor(y / TILE_SIZE);
+bool	has_wall(t_info *mlx, int x, int y)
+{	
+	x /=  TILE_SIZE;
+	y /= TILE_SIZE;
 	if (x < 0 || x >= mlx->rows || y < 0 || y >= mlx->cols)
-		return (false);
+		return (true);
 	if (mlx->map[(int)y][(int)x] == '1')
 		return (true);
 	return (false);
@@ -366,22 +147,23 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 	int		sign;
 	bool	is_ray_facing_up;
 
-	is_ray_facing_up = ray_angle > M_PI && ray_angle < 2 * M_PI;
+	is_ray_facing_up = ray_angle > M_PI;
 	sign = 1;
 	if (is_ray_facing_up)
 		sign = -1;
-	cord.ystep = floor(mlx->player_y / TILE_SIZE) * TILE_SIZE;
+	cord.ystep = ((int) mlx->player_y / TILE_SIZE) * TILE_SIZE;
 	if (!is_ray_facing_up)
 		cord.ystep += TILE_SIZE;
 	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
-	while (true)
+	const int dx = TILE_SIZE / tan(ray_angle);
+    while (true)
 	{
 		if ((is_ray_facing_up && \
 				has_wall(mlx, cord.xstep, cord.ystep - TILE_SIZE)) || \
 			(!is_ray_facing_up && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
-		cord.xstep += sign * TILE_SIZE / tan(ray_angle);
+		cord.xstep -= dx;
 		cord.ystep += sign * TILE_SIZE ;
 	}
 	return (cord);
@@ -395,28 +177,23 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 
 	is_ray_facing_left = ray_angle > M_PI / 2 && ray_angle < 1.5 * M_PI;
 	sign = 1;
-	cord.xstep = ceil(mlx->player_x / TILE_SIZE) * TILE_SIZE;
+	cord.xstep = ((int) 1 + mlx->player_x / TILE_SIZE) * TILE_SIZE;
 	if (is_ray_facing_left)
 	{
 		cord.xstep -= TILE_SIZE;
 		sign = -1;
 	}
 	cord.ystep = mlx->player_y - (mlx->player_x - cord.xstep) * tan(ray_angle);
+    const int dy = TILE_SIZE * tan(ray_angle);
 	while (true)
 	{
-        if(ray_angle == M_PI / 2 || ray_angle < 1.5 * M_PI )
-        {
-            // cord.xstep = mlx->player_x;
-            cord.ystep = mlx->player_y;
-            break ;
-        }
 		if ((is_ray_facing_left && \
 				has_wall(mlx, cord.xstep - TILE_SIZE, cord.ystep)) || \
 			(!is_ray_facing_left && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
 		cord.xstep += sign * TILE_SIZE;
-		cord.ystep += sign * TILE_SIZE * tan(ray_angle); 
+		cord.ystep -= dy; 
 	}
 	return (cord);
 }
@@ -460,14 +237,6 @@ double deg2rad(double degrees)
 {
     return degrees * (M_PI / 180.0);
 }
-// int	is_wall(double x, double y)
-// {
-//     t_info *map;
-// 	if (map->map[(int)(y) / CUBE][(int)(x) / CUBE] == '1'
-// 		|| map->map[(int)(y) / CUBE][(int)(x) / CUBE] == ' ')
-// 		return (1);
-// 	return (0);
-// }
 void hook_key(void *arg)
 {
     t_info *map = (t_info*)arg;
@@ -671,6 +440,8 @@ void init(t_info *map)
         mlx_terminate(map->mlx);
         return;
     }
+    map->rows = ft_strlen(map->map[0]);
+    map->cols = lenofmap(map->map);
     check_dir_angle(map);
     mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
