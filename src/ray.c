@@ -6,12 +6,12 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/26 12:17:22 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:24:27 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
-// // #define WIDTH 512
+// // #define map->width 512
 // // #define HEIGHT 512
 
 // // static mlx_image_t* image;
@@ -261,44 +261,166 @@ void	turn_right(t_info *info,int flag)
 
 void	check_dir_angle(t_info *info)
 {
-	if (info->pos == 'W')
-		info->player.alpha = M_PI;
-	if (info->pos == 'E')
-		info->player.alpha = 0;
-	if (info->pos == 'S')
-		info->player.alpha = M_PI / 2;
-	if (info->pos == 'N')
-		info->player.alpha = 3 * M_PI / 2;
+    int i = 0;
+    while(info->map[i])
+    {
+        int j = 0;
+        while(info->map[i][j])
+        {
+            if (info->map[i][j] == 'W')
+            	info->angle = M_PI;
+            if (info->map[i][j] == 'E')
+            	info->angle = 0;
+            if (info->map[i][j] == 'S')
+            	info->angle = M_PI / 2;
+            if (info->map[i][j] == 'N')
+            	info->angle = 3 * M_PI / 2;
+            j++;
+        }
+        i++;
+        
+    }
+
 }
 
-void	line(    t_info *data, double dis, double ang, int color)
+// void	line(    t_info *data, double dis, double ang, int color)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < dis)
+// 	{
+// 		x = data->player_x + i * cos(ang);
+// 		y = data->player_y + i * sin(ang);
+// 		if ((x >= 0 && x < data->player_x) && (y >= 0 && y < data->player_y))
+// 			mlx_put_pixel(data->img ,x, y, color);
+// 		i++;
+// 	}
+// }
+
+// void	drawray(    t_info *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->nbr_rays)
+// 	{
+// 		line(data ,data->ray[i].dis, data->ray[i].angle, 0xFFFFFF);
+// 		i++;
+// 	}
+// }
+
+int	lenofmap(char **arr)
 {
-	int	x;
-	int	y;
-	int	i;
+	int	len;
 
-	i = 0;
-	while (i < dis)
-	{
-		x = data->player_x + i * cos(ang);
-		y = data->player_y + i * sin(ang);
-		if ((x >= 0 && x < data->player_x) && (y >= 0 && y < data->player_y))
-			mlx_put_pixel(data->img ,x, y, color);
-		i++;
-	}
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
 }
 
-void	drawray(    t_info *data)
+t_cord	smallest(t_info *mlx, t_cord c1, t_cord c2)
 {
-	int	i;
+	float	d1;
+	float	d2;
 
-	i = 0;
-	while (i < data->nbr_rays)
+	d1 = sqrt((c1.xstep - mlx->player_x) * (c1.xstep - mlx->player_x) + \
+				(c1.ystep - mlx->player_y) * (c1.ystep - mlx->player_y));
+	d2 = sqrt((c2.xstep - mlx->player_x) * (c2.xstep - mlx->player_x) + \
+				(c2.ystep - mlx->player_y) * (c2.ystep - mlx->player_y));
+	if (d1 < d2)
 	{
-		line(data ,data->ray[i].dis, data->ray[i].angle, 0xFFFFFF);
-		i++;
+		c1.is_vertical = false;
+		return (c1);
 	}
+	c2.is_vertical = true;
+	return (c2);
 }
+
+bool	has_wall(t_info *mlx, float x, float y)
+{
+
+    mlx->rows = ft_strlen(mlx->map[0]);
+    mlx->cols = lenofmap(mlx->map);
+
+
+    // int width = get_width();
+    // int height = get_height();
+	if (x < 0 || x > mlx->width || y < 0 || y > mlx->height)
+		return (true);
+	x = floor(x / TILE_SIZE);
+	y = floor(y / TILE_SIZE);
+	if (x < 0 || x >= mlx->rows || y < 0 || y >= mlx->cols)
+		return (false);
+	if (mlx->map[(int)y][(int)x] == '1')
+		return (true);
+	return (false);
+}
+
+t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
+{
+	t_cord	cord;
+	int		sign;
+	bool	is_ray_facing_up;
+
+	is_ray_facing_up = ray_angle > M_PI && ray_angle < 2 * M_PI;
+	sign = 1;
+	if (is_ray_facing_up)
+		sign = -1;
+	cord.ystep = floor(mlx->player_y / TILE_SIZE) * TILE_SIZE;
+	if (!is_ray_facing_up)
+		cord.ystep += TILE_SIZE;
+	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
+	while (true)
+	{
+		if ((is_ray_facing_up && \
+				has_wall(mlx, cord.xstep, cord.ystep - TILE_SIZE)) || \
+			(!is_ray_facing_up && \
+				has_wall(mlx, cord.xstep, cord.ystep)))
+			break ;
+		cord.xstep += sign * TILE_SIZE / tan(ray_angle);
+		cord.ystep += sign * TILE_SIZE ;
+	}
+	return (cord);
+}
+
+t_cord	vertical_intersection(t_info *mlx, float ray_angle)
+{
+	t_cord	cord;
+	int		sign;
+	bool	is_ray_facing_left;
+
+	is_ray_facing_left = ray_angle > M_PI / 2 && ray_angle < 1.5 * M_PI;
+	sign = 1;
+	cord.xstep = ceil(mlx->player_x / TILE_SIZE) * TILE_SIZE;
+	if (is_ray_facing_left)
+	{
+		cord.xstep -= TILE_SIZE;
+		sign = -1;
+	}
+	cord.ystep = mlx->player_y - (mlx->player_x - cord.xstep) * tan(ray_angle);
+	while (true)
+	{
+        if(ray_angle == M_PI / 2 || ray_angle < 1.5 * M_PI )
+        {
+            // cord.xstep = mlx->player_x;
+            cord.ystep = mlx->player_y;
+            break ;
+        }
+		if ((is_ray_facing_left && \
+				has_wall(mlx, cord.xstep - TILE_SIZE, cord.ystep)) || \
+			(!is_ray_facing_left && \
+				has_wall(mlx, cord.xstep, cord.ystep)))
+			break ;
+		cord.xstep += sign * TILE_SIZE;
+		cord.ystep += sign * TILE_SIZE * tan(ray_angle); 
+	}
+	return (cord);
+}
+
 
 void drawLine(t_info *map, float x1, float y1, float x2, float y2)
 {
@@ -325,7 +447,8 @@ void drawLine(t_info *map, float x1, float y1, float x2, float y2)
     while (i <= step)
     {
 
-        if (map->map[(int)y / TILE_SIZE][(int)x /TILE_SIZE] != '1')
+        // if (map->map[(int)y / TILE_SIZE][(int)x /TILE_SIZE] != '1')
+        if (x > 0 && x < map->width && y > 0 && y < map->height)
             mlx_put_pixel(map->img, (int)x, (int)y, color); // Set the color to red
         x += dx;
         y += dy;
@@ -337,8 +460,14 @@ double deg2rad(double degrees)
 {
     return degrees * (M_PI / 180.0);
 }
-
-
+// int	is_wall(double x, double y)
+// {
+//     t_info *map;
+// 	if (map->map[(int)(y) / CUBE][(int)(x) / CUBE] == '1'
+// 		|| map->map[(int)(y) / CUBE][(int)(x) / CUBE] == ' ')
+// 		return (1);
+// 	return (0);
+// }
 void hook_key(void *arg)
 {
     t_info *map = (t_info*)arg;
@@ -357,14 +486,19 @@ void hook_key(void *arg)
     if (mlx_is_key_down(map->mlx, MLX_KEY_D))
         target_x += PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-        map->player.alpha -= deg2rad(3);
+        map->angle += deg2rad(3);
     else if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT)) 
-        map->player.alpha += deg2rad(3);
+        map->angle -= deg2rad(3);
 
+    // if(map->angle > 2 * M_PI)
+    //         map->angle -=  2 * M_PI;
+    // if(map->angle < 0)
+    //         map->angle +=  2 * M_PI;
+            
     int map_x = target_x / TILE_SIZE;
     int map_y = target_y / TILE_SIZE;
 
-    printf("w: %d, h: %d => %c\n", map_x, map_y, map->map[map_y][map_x]);
+    // printf("w: %d, h: %d => %c\n", map_x, map_y, map->map[map_y][map_x]);
     if ( map->map[map_y][map_x] == '0' )
     {
         // Draw line from player to target
@@ -373,16 +507,44 @@ void hook_key(void *arg)
         map->player_x = target_x;
         map->player_y = target_y;
     }
+        // printf("error\n");
         draw_map(map);
         float xf, yf;
-        map->angle = map->player.alpha - deg2rad(FOV / 2);
-        xf = cos(map->angle) * 100;
-        yf = sin(map->angle) * 100;
+        if(map->angle > 2 * M_PI)
+            map->angle -=  2 * M_PI;
+        if(map->angle < 0)
+            map->angle +=  2 * M_PI;
+            
+        map->angle_fov = map->angle - deg2rad(FOV / 2);
+        // map->angle -= deg2rad(FOV / 2);
+        // printf("the angele is == %f\n", map->angle);
+
+        t_cord inter;
+        int i = 0;
+        while(i < FOV)
+        {
+            map->angle_fov += deg2rad(1);
+            if(map->angle_fov > 2 * M_PI)
+                map->angle_fov -=  2 * M_PI;
+            if(map->angle_fov < 0)
+                map->angle_fov +=  2 * M_PI;
+            inter = smallest(map, horizontal_intersection(map, map->angle_fov), vertical_intersection(map, map->angle_fov));
+            printf("%f\n", map->angle_fov);
+            // inter = vertical_intersection(map, map->angle_fov);
+            drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,inter.xstep  , inter.ystep );
+            i++;
+        }
+            
+        xf = cos(map->angle) * inter.xstep;
+        yf = sin(map->angle) * inter.ystep;
+
+        //ray intersaction
 
         // mlx_put_pixel(map->img, map->player_x, map->player_y,);
+        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,inter.xstep  , inter.ystep );
 
         
-        drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,map->player_x + xf + 4.5 , map->player_y + yf + 4.5);
+        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,map->player_x + xf + 4.5 , map->player_y + yf + 4.5);
         // drawray(map);
 }
 
@@ -444,10 +606,6 @@ void draw_map(void *param)
                 else 
                     color = 0xFFFFFFFF; // White color
                   
-                
-            // printf("width==%d || height==%d\n", width, height);
-            // printf("j==%d || i==%d\n", j, i);
-            // printf("x==%d || y==%d\n", info->player_x, info->player_y);
             for (y = 0; y < TILE_SIZE; y++)
             {
                 for (x = 0; x < TILE_SIZE; x++)
@@ -462,9 +620,10 @@ void draw_map(void *param)
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                 }
             }
-            // drow_player();
+           
         }
     }
+
 
     for (i = 0; i < TILE_PLAYER_SIZE; ++i) {
         for (j = 0; j < TILE_PLAYER_SIZE; ++j) {
@@ -489,16 +648,16 @@ void draw_map(void *param)
 void init(t_info *map)
 {
 
-    int width = get_width() * TILE_SIZE;
-    int height = get_height() * TILE_SIZE;
+    map->width = get_width() * TILE_SIZE;
+    map->height = get_height() * TILE_SIZE;
 
-    map->mlx = mlx_init(width, height, "CUB3D", 0);
+    map->mlx = mlx_init(map->width, map->height, "CUB3D", 0);
     if (!map->mlx) {
         fprintf(stderr, "Failed to initialize MLX\n");
         return;
     }
 
-    map->img = mlx_new_image(map->mlx, width, height);
+    map->img = mlx_new_image(map->mlx, map->width, map->height);
     if (!map->img)
     {
         fprintf(stderr, "Failed to create new image\n");
@@ -512,7 +671,7 @@ void init(t_info *map)
         mlx_terminate(map->mlx);
         return;
     }
-
+    check_dir_angle(map);
     mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/26 11:57:18 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:45:47 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@
 
 // Initialize the player with default values
 
+
+typedef struct s_cord
+{
+    double xstep;
+    double ystep;
+	bool	is_vertical;
+} t_cord;
 
 typedef struct s_ray
 {
@@ -96,6 +103,9 @@ typedef struct s_player
 
 typedef struct s_info
 {
+    double angle_fov;
+	int width;
+	int height;
 	char	*first_info;
 	char	*second_info;
 	char	*third_info;
@@ -106,6 +116,7 @@ typedef struct s_info
 	int		_f[3];
 	int		_c[3];
 	float		x;
+	int cols;
 	float		y;
 	char 	pos;
 	char	*addr;
@@ -123,6 +134,7 @@ typedef struct s_info
 	int		player_x;
 	int		player_y;
 	int			nbr_rays;
+	int rows;
 		t_ray		*ray;
 	double angle;
 

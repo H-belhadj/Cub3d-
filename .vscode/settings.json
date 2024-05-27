@@ -63,6 +63,7 @@
     "libft.h": "c",
     "head.h": "c",
     "__locale": "c",
-    "algorithm": "c"
+    "algorithm": "c",
+    "ios": "c"
   }
 }
