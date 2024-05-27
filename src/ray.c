@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/27 15:24:47 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:48:16 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,12 @@ void pos_player(t_info *map)
 
 void	var_init(t_info *info)
 {
-	info->viewangle = 60 * (M_PI / 180);
+	info->viewangle = FOV * (M_PI / 180);
 	info->player.speedretate = SPEED_R * (M_PI / 180);
 	info->player.speedmove = (CUBE * SPEED_M) / 20 ;
 	info->player.dirturn = 0;
 	info->player.dirwalk = 0;
 	info->rad = M_PI / 180;
-}
-
-void	vapsangle(double *angle)
-{
-	*angle = fmod(*angle, 2 * M_PI);
-	if (*angle < 0)
-		*angle += 2 * M_PI;
-}
-
-void	turn_left(t_info *info,int flag)
-{
-	info->player.dirturn = 1;
-	if (flag)
-		info->angle += info->player.dirturn
-			* info->player.speedretate_m;
-	else
-		info->angle += info->player.dirturn
-			*  info->player.speedretate;
-	vapsangle(&info->angle);
-}
-
-void	turn_right(t_info *info,int flag)
-{
-	info->player.dirturn = -1;
-	if (flag)
-		info->angle += info->player.dirturn
-			*  info->player.speedretate_m;
-	else
-		info->angle += info->player.dirturn
-			*  info->player.speedretate;
-	vapsangle(&info->angle);
 }
 
 void	check_dir_angle(t_info *info)
@@ -151,11 +120,17 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 	sign = 1;
 	if (is_ray_facing_up)
 		sign = -1;
+
+
+        
 	cord.ystep = ((int) mlx->player_y / TILE_SIZE) * TILE_SIZE;
 	if (!is_ray_facing_up)
 		cord.ystep += TILE_SIZE;
 	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
-	const int dx = TILE_SIZE / tan(ray_angle);
+    
+	const float dx = sign * TILE_SIZE / tan(ray_angle);
+    const float dy = sign * TILE_SIZE;
+    
     while (true)
 	{
 		if ((is_ray_facing_up && \
@@ -163,8 +138,10 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 			(!is_ray_facing_up && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
-		cord.xstep -= dx;
-		cord.ystep += sign * TILE_SIZE ;
+		cord.xstep += dx;
+		cord.ystep += dy ;
+
+        if (cord.xstep > mlx->width || cord.xstep < 0) break;
 	}
 	return (cord);
 }
@@ -184,7 +161,9 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 		sign = -1;
 	}
 	cord.ystep = mlx->player_y - (mlx->player_x - cord.xstep) * tan(ray_angle);
-    const int dy = TILE_SIZE * tan(ray_angle);
+
+    const float dx =  sign * TILE_SIZE;
+    const float dy = sign * TILE_SIZE * tan(ray_angle);
 	while (true)
 	{
 		if ((is_ray_facing_left && \
@@ -192,14 +171,14 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 			(!is_ray_facing_left && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
-		cord.xstep += sign * TILE_SIZE;
-		cord.ystep -= dy; 
+		cord.xstep += dx;
+		cord.ystep += dy; 
 	}
 	return (cord);
 }
 
 
-void drawLine(t_info *map, float x1, float y1, float x2, float y2)
+void drawLine(t_info *map, int x1, int y1, int x2, int y2, uint32_t color)
 {
     float dx, dy, step, x, y;
     int i;
@@ -217,7 +196,8 @@ void drawLine(t_info *map, float x1, float y1, float x2, float y2)
     x = x1;
     y = y1;
 
-    uint32_t color = 0xFF0000FF; // Red color (format: 0xRRGGBBAA)
+    // color = 0xFF0000FF; // Red color (format: 0xRRGGBBAA)
+
 
     i = 0;
 
@@ -238,7 +218,7 @@ double deg2rad(double degrees)
     return degrees * (M_PI / 180.0);
 }
 void hook_key(void *arg)
-{
+{    
     t_info *map = (t_info*)arg;
     int target_x = map->player_x;
     int target_y = map->player_y;
@@ -255,9 +235,14 @@ void hook_key(void *arg)
     if (mlx_is_key_down(map->mlx, MLX_KEY_D))
         target_x += PLAYER_SPEED;
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-        map->angle += deg2rad(3);
+        map->angle += deg2rad(2.5);
     else if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT)) 
-        map->angle -= deg2rad(3);
+        map->angle -= deg2rad(2.5);
+
+    if(map->angle >= 2 * M_PI)
+            map->angle -=  2 * M_PI;
+    else if(map->angle < 0)
+        map->angle +=  2 * M_PI;
 
     // if(map->angle > 2 * M_PI)
     //         map->angle -=  2 * M_PI;
@@ -276,36 +261,49 @@ void hook_key(void *arg)
         map->player_x = target_x;
         map->player_y = target_y;
     }
-        // printf("error\n");
-        draw_map(map);
-        float xf, yf;
-        if(map->angle > 2 * M_PI)
-            map->angle -=  2 * M_PI;
-        if(map->angle < 0)
-            map->angle +=  2 * M_PI;
+    
+    
+    // printf("error\n");
+    draw_map(map);
+    float xf, yf;
+        
             
-        map->angle_fov = map->angle - deg2rad(FOV / 2);
-        // map->angle -= deg2rad(FOV / 2);
-        // printf("the angele is == %f\n", map->angle);
+    map->angle_fov = map->angle - deg2rad(FOV / 2);
+    // map->angle -= deg2rad(FOV / 2);
+    // printf("the angele is == %f\n", map->angle);
 
-        t_cord inter;
-        int i = 0;
-        while(i < FOV)
-        {
-            map->angle_fov += deg2rad(1);
-            if(map->angle_fov > 2 * M_PI)
-                map->angle_fov -=  2 * M_PI;
-            if(map->angle_fov < 0)
-                map->angle_fov +=  2 * M_PI;
-            inter = smallest(map, horizontal_intersection(map, map->angle_fov), vertical_intersection(map, map->angle_fov));
-            printf("%f\n", map->angle_fov);
-            // inter = vertical_intersection(map, map->angle_fov);
-            drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,inter.xstep  , inter.ystep );
-            i++;
-        }
+    t_cord inter;
+    int i = 0;
+    // int fov = map->viewangle / map->width;
+    while(i <= FOV)
+    {
+        map->angle_fov += deg2rad(1);
+        if(map->angle_fov > 2 * M_PI)
+            map->angle_fov -=  2 * M_PI;
+        if(map->angle_fov < 0)
+            map->angle_fov +=  2 * M_PI;
+
+        // printf("angle: %f\n", map->angle_fov);
+
+
+        t_cord h =  horizontal_intersection(map, map->angle_fov);
+        h.is_vertical = false;
+        t_cord v = vertical_intersection(map, map->angle_fov);
+        v.is_vertical = true;
+
+        // drawLine(map, map->player_x, map->player_y, h.xstep, h.ystep, 0x0000FFFF);
+        // drawLine(map, map->player_x, map->player_y, v.xstep, v.ystep, 0xFF0000FF);
+        
             
-        xf = cos(map->angle) * inter.xstep;
-        yf = sin(map->angle) * inter.ystep;
+        inter = smallest(map, h, v);
+        // printf("%f\n", map->angle_fov);
+        // inter = vertical_intersection(map, map->angle_fov);
+        drawLine(map, map->player_x , map->player_y ,inter.xstep  , inter.ystep, 0x00ff00ff);
+        i++;
+    }
+        
+    xf = cos(map->angle) * inter.xstep;
+    yf = sin(map->angle) * inter.ystep;
 
         //ray intersaction
 
@@ -313,7 +311,7 @@ void hook_key(void *arg)
         // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,inter.xstep  , inter.ystep );
 
         
-        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,map->player_x + xf + 4.5 , map->player_y + yf + 4.5);
+        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,xf + 4.5 ,yf + 4.5);
         // drawray(map);
 }
 
@@ -443,6 +441,7 @@ void init(t_info *map)
     map->rows = ft_strlen(map->map[0]);
     map->cols = lenofmap(map->map);
     check_dir_angle(map);
+    // mlx_key_hook(map->mlx, hook_key, map);
     mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
 }
