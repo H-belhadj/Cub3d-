@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/28 14:52:00 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:55:11 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 
 
         
-	cord.ystep = ((int) mlx->player_y / TILE_SIZE) * TILE_SIZE;
+	cord.ystep = (int) ( mlx->player_y / TILE_SIZE) * TILE_SIZE;
 	if (!is_ray_facing_up)
 		cord.ystep += TILE_SIZE;
 	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
@@ -154,7 +154,7 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 
 	is_ray_facing_left = ray_angle > M_PI / 2 && ray_angle < 1.5 * M_PI;
 	sign = 1;
-	cord.xstep = ((int) 1 + mlx->player_x / TILE_SIZE) * TILE_SIZE;
+	cord.xstep = (int) ( 1 + mlx->player_x / TILE_SIZE) * TILE_SIZE;
 	if (is_ray_facing_left)
 	{
 		cord.xstep -= TILE_SIZE;
@@ -220,20 +220,34 @@ double deg2rad(double degrees)
 void hook_key(void *arg)
 {    
     t_info *map = (t_info*)arg;
-    int target_x = map->player_x;
-    int target_y = map->player_y;
+    double target_x = map->player_x;
+    double target_y = map->player_y;
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_W))
-        target_y -= PLAYER_SPEED;
+    {
+
+        target_x += PLAYER_SPEED * cos(map->angle);
+        target_y += PLAYER_SPEED * sin(map->angle);
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_S))
-        target_y += PLAYER_SPEED;
+    {
+        target_x -= PLAYER_SPEED * cos(map->angle);
+        target_y -= PLAYER_SPEED * sin(map->angle);
+        
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_A))
-        target_x -= PLAYER_SPEED;
+    {
+        target_y -= PLAYER_SPEED * cos(map->angle);
+        target_x += PLAYER_SPEED * sin(map->angle);
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_D))
-        target_x += PLAYER_SPEED;
+    {
+        target_y += PLAYER_SPEED * cos(map->angle);
+        target_x -= PLAYER_SPEED * sin(map->angle);
+    }
     if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
         map->angle += deg2rad(2.5);
     else if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT)) 
@@ -300,7 +314,7 @@ void hook_key(void *arg)
         inter = smallest(map, h, v);
         // printf("%f\n", map->angle_fov);
         // inter = vertical_intersection(map, map->angle_fov);
-        drawLine(map, map->player_x + 4.5  , map->player_y + 4.5 ,inter.xstep  , inter.ystep , 0xFF0000FF);
+        drawLine(map, map->player_x  , map->player_y ,inter.xstep  , inter.ystep , 0xFF0000FF);
         map->angle_fov += disrays;
         i++;
     }
@@ -384,9 +398,9 @@ void draw_map(void *param)
                     pixel_y = i * TILE_SIZE + y;
 
                     // Check if the pixel is on the border of the tile
-                    // if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
-                    //     mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
-                    // else
+                    if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
+                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
+                    else
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                 }
             }
@@ -398,8 +412,8 @@ void draw_map(void *param)
     for (i = 0; i < TILE_PLAYER_SIZE; ++i) {
         for (j = 0; j < TILE_PLAYER_SIZE; ++j) {
 
-            int x = info->player_x + i;
-            int y = info->player_y + j;
+            double x = info->player_x + i;
+            double y = info->player_y + j;
 
             mlx_put_pixel(info->img, x, y, 0x0000FFFF);
 

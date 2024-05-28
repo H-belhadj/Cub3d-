@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/27 12:45:47 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:51:00 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 
 #define CUBE 10
-# define TILE_PLAYER_SIZE 9
+# define TILE_PLAYER_SIZE 1
 # define TILE_SIZE 64
 #define WIDTH 512
 #define HEIGHT 512
@@ -131,12 +131,12 @@ typedef struct s_info
 	mlx_image_t		*img;
 	mlx_t			*mlx;
 	t_player	player;
-	int		player_x;
-	int		player_y;
+	double		player_x;
+	double		player_y;
 	int			nbr_rays;
 	int rows;
 		t_ray		*ray;
-	double angle;
+	double	angle;
 
 
 }	t_info;
