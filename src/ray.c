@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/27 16:48:16 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:52:00 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,11 +273,13 @@ void hook_key(void *arg)
     // printf("the angele is == %f\n", map->angle);
 
     t_cord inter;
-    int i = 0;
+    double i = 0;
+    double disrays = deg2rad(FOV)/ map->width;
+    // printf("dis ===> %f\n", disrays);
     // int fov = map->viewangle / map->width;
-    while(i <= FOV)
+    while(i <= map->width)
     {
-        map->angle_fov += deg2rad(1);
+        // map->angle_fov += deg2rad(1);
         if(map->angle_fov > 2 * M_PI)
             map->angle_fov -=  2 * M_PI;
         if(map->angle_fov < 0)
@@ -298,7 +300,8 @@ void hook_key(void *arg)
         inter = smallest(map, h, v);
         // printf("%f\n", map->angle_fov);
         // inter = vertical_intersection(map, map->angle_fov);
-        drawLine(map, map->player_x , map->player_y ,inter.xstep  , inter.ystep, 0x00ff00ff);
+        drawLine(map, map->player_x + 4.5  , map->player_y + 4.5 ,inter.xstep  , inter.ystep , 0xFF0000FF);
+        map->angle_fov += disrays;
         i++;
     }
         
@@ -381,9 +384,9 @@ void draw_map(void *param)
                     pixel_y = i * TILE_SIZE + y;
 
                     // Check if the pixel is on the border of the tile
-                    if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
-                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
-                    else
+                    // if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
+                    //     mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
+                    // else
                         mlx_put_pixel(info->img, pixel_x, pixel_y, color);
                 }
             }
@@ -409,7 +412,6 @@ void draw_map(void *param)
     
     
 // }
-
 
 
 void init(t_info *map)
