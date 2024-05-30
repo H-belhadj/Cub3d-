@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/28 15:55:11 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:08:56 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,11 @@ t_cord	smallest(t_info *mlx, t_cord c1, t_cord c2)
 				(c2.ystep - mlx->player_y) * (c2.ystep - mlx->player_y));
 	if (d1 < d2)
 	{
+        mlx->dis = d1;
 		c1.is_vertical = false;
 		return (c1);
 	}
+    mlx->dis = d2;
 	c2.is_vertical = true;
 	return (c2);
 }
@@ -213,15 +215,51 @@ void drawLine(t_info *map, int x1, int y1, int x2, int y2, uint32_t color)
     }
 }
 
+void drawalls(t_info *map, t_cord *inter,  double i)
+{
+    (void)inter;
+    double x1, x2, y1, y2;
+
+    x1 = i;
+    x2 = i;
+    y1 = (map->width / 2) - ((map->width / 2) / map->dis) * TILE_SIZE;
+    y2 = (map->width / 2) + ((map->width / 2) / map->dis)* TILE_SIZE;
+    drawLine(map, x1, y1 , x2, y2 , 0xFFFFFFFF);
+}
+
 double deg2rad(double degrees)
 {
     return degrees * (M_PI / 180.0);
 }
 void hook_key(void *arg)
-{    
+{   
     t_info *map = (t_info*)arg;
     double target_x = map->player_x;
     double target_y = map->player_y;
+
+    // int b = 0;
+    // int c = 0;
+
+    // for (b = 0;  < map->height; i++)
+    // {
+    //     for (j = 0; j < map->width; j++)
+    //     {
+    //         char tile = map->map[i][j];
+    //         uint32_t color;
+    
+    //             if (tile == '1')
+    //                 color = 0x000000FF; // Black color
+    //             else 
+    //                 color = 0xFFFFFFFF; // White color
+       
+    //                 // Check if the pixel is on the border of the tile
+    //                 if((i > 0 && i < map->width && j > 0 && j < map->height))
+    //                 {
+    //                         mlx_put_pixel(map->img, i, j, color);
+    //                 } 
+               
+    //     }
+    // }
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
@@ -278,7 +316,7 @@ void hook_key(void *arg)
     
     
     // printf("error\n");
-    draw_map(map);
+    // draw_map(map);
     float xf, yf;
         
             
@@ -289,6 +327,9 @@ void hook_key(void *arg)
     t_cord inter;
     double i = 0;
     double disrays = deg2rad(FOV)/ map->width;
+    
+
+    
     // printf("dis ===> %f\n", disrays);
     // int fov = map->viewangle / map->width;
     while(i <= map->width)
@@ -314,7 +355,8 @@ void hook_key(void *arg)
         inter = smallest(map, h, v);
         // printf("%f\n", map->angle_fov);
         // inter = vertical_intersection(map, map->angle_fov);
-        drawLine(map, map->player_x  , map->player_y ,inter.xstep  , inter.ystep , 0xFF0000FF);
+        drawalls(map, &inter, i);
+        // drawLine(map, map->player_x  , map->player_y ,inter.xstep  , inter.ystep , 0xFF0000FF);
         map->angle_fov += disrays;
         i++;
     }
@@ -397,11 +439,16 @@ void draw_map(void *param)
                     pixel_x = j * TILE_SIZE + x;
                     pixel_y = i * TILE_SIZE + y;
 
+                    
                     // Check if the pixel is on the border of the tile
-                    if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1)
-                        mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
-                    else
-                        mlx_put_pixel(info->img, pixel_x, pixel_y, color);
+                    if((pixel_x > 0 && pixel_x < info->width && pixel_y > 0 && pixel_y < info->height))
+                    {
+                        if (x == 0 || x == TILE_SIZE - 1 || y == 0 || y == TILE_SIZE - 1 )
+                            mlx_put_pixel(info->img, pixel_x, pixel_y, 0x00FF00FF);
+                        else
+                            mlx_put_pixel(info->img, pixel_x, pixel_y, color);
+                        
+                    }
                 }
             }
            
@@ -414,8 +461,9 @@ void draw_map(void *param)
 
             double x = info->player_x + i;
             double y = info->player_y + j;
-
-            mlx_put_pixel(info->img, x, y, 0x0000FFFF);
+            
+            if (x > 0 && x < info->width && y > 0 && y < info->height)
+                mlx_put_pixel(info->img, x, y, 0x0000FFFF);
 
         }
     }
@@ -431,8 +479,8 @@ void draw_map(void *param)
 void init(t_info *map)
 {
 
-    map->width = get_width() * TILE_SIZE;
-    map->height = get_height() * TILE_SIZE;
+    map->width = WIDTH;
+    map->height = HEIGHT;
 
     map->mlx = mlx_init(map->width, map->height, "CUB3D", 0);
     if (!map->mlx) {
