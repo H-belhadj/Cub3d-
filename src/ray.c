@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/30 14:08:56 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:24:01 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,9 +222,9 @@ void drawalls(t_info *map, t_cord *inter,  double i)
 
     x1 = i;
     x2 = i;
-    y1 = (map->width / 2) - ((map->width / 2) / map->dis) * TILE_SIZE;
-    y2 = (map->width / 2) + ((map->width / 2) / map->dis)* TILE_SIZE;
-    drawLine(map, x1, y1 , x2, y2 , 0xFFFFFFFF);
+    y1 = (map->height / 2) - ((map->height / 2) / map->dis) * TILE_SIZE;
+    y2 = (map->height / 2) + ((map->height / 2) / map->dis)* TILE_SIZE;
+    drawLine(map, x1, y1 , x2, y2 , 0xFF0000FF);
 }
 
 double deg2rad(double degrees)
@@ -232,7 +232,10 @@ double deg2rad(double degrees)
     return degrees * (M_PI / 180.0);
 }
 void hook_key(void *arg)
-{   
+{    
+
+    
+
     t_info *map = (t_info*)arg;
     double target_x = map->player_x;
     double target_y = map->player_y;
@@ -240,26 +243,15 @@ void hook_key(void *arg)
     // int b = 0;
     // int c = 0;
 
-    // for (b = 0;  < map->height; i++)
-    // {
-    //     for (j = 0; j < map->width; j++)
-    //     {
-    //         char tile = map->map[i][j];
-    //         uint32_t color;
-    
-    //             if (tile == '1')
-    //                 color = 0x000000FF; // Black color
-    //             else 
-    //                 color = 0xFFFFFFFF; // White color
-       
-    //                 // Check if the pixel is on the border of the tile
-    //                 if((i > 0 && i < map->width && j > 0 && j < map->height))
-    //                 {
-    //                         mlx_put_pixel(map->img, i, j, color);
-    //                 } 
+    for (int i = 0; i < map->height; i++)
+    {
+        for (int j = 0; j < map->width; j++)
+        {
+             
+                mlx_put_pixel(map->img, j, i, 0x000000);
                
-    //     }
-    // }
+        }
+    }
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(map->mlx);
