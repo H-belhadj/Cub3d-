@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/31 22:42:22 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/31 22:52:17 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,16 @@ void pos_player(t_info *map)
 		j = 0;
 		while(map->map[i][j])
 		{
+            if (map->map[i][j] == 'W')
+            {
+            	map->angle = M_PI;
+            }
+            if (map->map[i][j] == 'E')
+            	map->angle = 0;
+            if (map->map[i][j] == 'S')
+            	map->angle = M_PI / 2;
+            if (map->map[i][j] == 'N')
+            	map->angle = 3 * M_PI / 2;
 			if(ft_strchr("NSWE", map->map[i][j]))
 			{
 				map->player_x = (j + 0.5) * TILE_SIZE - TILE_PLAYER_SIZE / 2;
@@ -119,11 +129,14 @@ void	check_dir_angle(t_info *info)
     int i = 0;
     while(info->map[i])
     {
+                // printf("%s\n", info->map[i]);
         int j = 0;
         while(info->map[i][j])
         {
             if (info->map[i][j] == 'W')
+            {
             	info->angle = M_PI;
+            }
             if (info->map[i][j] == 'E')
             	info->angle = 0;
             if (info->map[i][j] == 'S')
@@ -291,6 +304,8 @@ void hook_key(void *arg)
 
 
     t_info *map = (t_info*)arg;
+
+
     double target_x = map->player_x;
     double target_y = map->player_y;
     for (int i = 0; i < map->height; i++)
@@ -500,8 +515,8 @@ void init(t_info *map)
     }
     map->rows = ft_strlen(map->map[0]);
     map->cols = lenofmap(map->map);
-    check_dir_angle(map);
-    // mlx_key_hook(map->mlx, hook_key, map);
+        // check_dir_angle(map);
+
     mlx_loop_hook(map->mlx, hook_key, map);
     mlx_loop(map->mlx);
 }
