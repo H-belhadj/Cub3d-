@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/31 20:09:56 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/31 22:42:22 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void my_mlx_texture_to_image(t_info* map)
     //calc
     // printf("haitam errr\n");
     double ok;
+    // printf("inter===%f || y_calc===%f\n", map->inter.xstep, map->inter.ystep);
     double x_calc = (modf((map->inter.xstep) / TILE_SIZE, &ok)) * TILE_SIZE;
     double y_calc = (modf((map->inter.ystep) / TILE_SIZE, &ok)) * TILE_SIZE;
     // printf("x_cal===%f || y_calc===%f\n", x_calc, y_calc);
@@ -31,42 +32,38 @@ void my_mlx_texture_to_image(t_info* map)
     
     mlx_texture_t* photos = map->tex1;
     
-        printf("x_img====%f || y_img====%f\n", x_calc, y_calc);
 
-    if(x_calc <= 0.1)
+    if(x_calc <= 0.0001)
     {
         photos = map->tex1;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-    else if(y_calc <= 0.1)
+    else if(y_calc <= 0.0001)
     {
         photos = map->tex2;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-
-    else if(x_calc > TILE_SIZE - 0.1)
+    else if(x_calc > TILE_SIZE - 0.0001)
     {
         photos = map->tex3;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-    else if(y_calc > TILE_SIZE - 0.1)
+    else if(y_calc > TILE_SIZE - 0.0001)
     {
         photos = map->tex4;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
     
-    // double y_tex = (y_calc * photos->width) / TILE_SIZE ;
     double x_img = map->x_wall1;
     double y_img = map->y_wall1;
     double y_plus = photos->height / (map->y_wall2 - map->y_wall1);
 
     
     
-    // printf("x_img====%d || y_img====%d\n", x_img, y_img);
 	while (y_tex < photos->height && y_img < map->y_wall2)
 	{
         if (((y_tex * photos->width) + x_tex) * photos->bytes_per_pixel > 0 &&
@@ -150,8 +147,6 @@ int	lenofmap(char **arr)
 		len++;
 	return (len);
 }
-//mo3adalat vitafors
-
 t_cord	smallest(t_info *mlx, t_cord c1, t_cord c2)
 {
 	float	d1;
@@ -192,13 +187,10 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 	is_ray_facing_up = ray_angle > M_PI;
 	sign = 1;
 	if (is_ray_facing_up)
-		sign = -1;
-
-
-        
+		sign = -1;  
 	cord.ystep = (int) (mlx->player_y / TILE_SIZE) * TILE_SIZE;
 	if (!is_ray_facing_up)
-		cord.ystep += TILE_SIZE ;
+		cord.ystep += TILE_SIZE;
 	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
     
 	const float dx = sign * TILE_SIZE / tan(ray_angle);
@@ -230,7 +222,7 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 	cord.xstep = (int) (1 + mlx->player_x / TILE_SIZE) * TILE_SIZE;
 	if (is_ray_facing_left)
 	{
-		cord.xstep -= TILE_SIZE ;
+		cord.xstep -= TILE_SIZE;
 		sign = -1;
 	}
 	cord.ystep = mlx->player_y - (mlx->player_x - cord.xstep) * tan(ray_angle);
@@ -268,18 +260,12 @@ void drawLine(t_info *map, int x1, int y1, int x2, int y2, uint32_t color)
     dy = dy / step;
     x = x1;
     y = y1;
-
-    // color = 0xFF0000FF; // Red color (format: 0xRRGGBBAA)
-
-
     i = 0;
 
     while (i <= step)
     {
-
-        // if (map->map[(int)y / TILE_SIZE][(int)x /TILE_SIZE] != '1')
         if (x > 0 && x < map->width && y > 0 && y < map->height)
-            mlx_put_pixel(map->img, (int)x, (int)y, color); // Set the color to red
+            mlx_put_pixel(map->img, (int)x, (int)y, color); 
         x += dx;
         y += dy;
         i++;
@@ -295,7 +281,6 @@ void drawalls(t_info *map, double i)
     
     my_mlx_texture_to_image(map);
     
-    // drawLine(map, map->x_wall1, map->y_wall1 , map->x_wall2, map->y_wall2 , 0xFF0000FF);
 }
 double deg2rad(double degrees)
 {
@@ -308,17 +293,10 @@ void hook_key(void *arg)
     t_info *map = (t_info*)arg;
     double target_x = map->player_x;
     double target_y = map->player_y;
-
-    // int b = 0;
-    // int c = 0;
     for (int i = 0; i < map->height; i++)
     {
         for (int j = 0; j < map->width; j++)
-        {
-             
                 mlx_put_pixel(map->img, j, i, 0x000000);
-               
-        }
     }
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
@@ -355,82 +333,37 @@ void hook_key(void *arg)
             map->angle -=  2 * M_PI;
     else if(map->angle < 0)
         map->angle +=  2 * M_PI;
-
-    // if(map->angle > 2 * M_PI)
-    //         map->angle -=  2 * M_PI;
-    // if(map->angle < 0)
-    //         map->angle +=  2 * M_PI;
             
     int map_x = target_x / TILE_SIZE;
     int map_y = target_y / TILE_SIZE;
-
-    // printf("w: %d, h: %d => %c\n", map_x, map_y, map->map[map_y][map_x]);
     if ( map->map[map_y][map_x] == '0' )
     {
-        // Draw line from player to target
-        
-        // Update player's position
         map->player_x = target_x;
         map->player_y = target_y;
     }
-    
-    
-    // printf("error\n");
-    // draw_map(map);
-    // float xf, yf;
-        
+  
             
     map->angle_fov = map->angle - deg2rad(FOV / 2);
-    // map->angle -= deg2rad(FOV / 2);
-    // printf("the angele is == %f\n", map->angle);
 
     double i = 0;
     double disrays = deg2rad(FOV)/ map->width;
-    
 
-    
-    // printf("dis ===> %f\n", disrays);
-    // int fov = map->viewangle / map->width;
     while(i <= map->width)
     {
-        // map->angle_fov += deg2rad(1);
         if(map->angle_fov > 2 * M_PI)
             map->angle_fov -=  2 * M_PI;
         if(map->angle_fov < 0)
             map->angle_fov +=  2 * M_PI;
-
-        // printf("angle: %f\n", map->angle_fov);
-
-
         t_cord h =  horizontal_intersection(map, map->angle_fov);
         h.is_vertical = false;
         t_cord v = vertical_intersection(map, map->angle_fov);
-        v.is_vertical = true;
-
-        // drawLine(map, map->player_x, map->player_y, h.xstep, h.ystep, 0x0000FFFF);
-        // drawLine(map, map->player_x, map->player_y, v.xstep, v.ystep, 0xFF0000FF);
-        
-            
+        v.is_vertical = true;   
         map->inter = smallest(map, h, v);
-        // printf("%f\n", map->angle_fov);
-        // inter = vertical_intersection(map, map->angle_fov);
+        map->dis *= cos(map->angle - map->angle_fov);
         drawalls(map, i);
-        // drawLine(map, map->player_x  , map->player_y ,inter.xstep  , inter.ystep , 0xFF0000FF);
         map->angle_fov += disrays;
         i++;
     }
-
-        // my_mlx_texture_to_image(map, map->tex);
-
-
-        //ray intersaction
-
-        // mlx_put_pixel(map->img, map->player_x, map->player_y,);
-        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,inter.xstep  , inter.ystep );
-
-        
-        // drawLine(map, map->player_x + 4.5 , map->player_y + 4.5 ,xf + 4.5 ,yf + 4.5);
-        // drawray(map);
 }
 
 
