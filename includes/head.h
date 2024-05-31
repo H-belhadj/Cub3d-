@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/30 14:22:57 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:48:26 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #define CUBE 10
 # define TILE_PLAYER_SIZE 1
 # define TILE_SIZE 64
-#define WIDTH 1024
-#define HEIGHT 512
+#define WIDTH 1500
+#define HEIGHT 1024
 # define MSIZE 170
 #define PLAYER_SPEED 2
 # define SPEED_R 3
@@ -128,7 +128,10 @@ typedef struct s_info
 	char	**map;
 	double		viewangle;
 	double	dis;
-	mlx_texture_t	*tex;
+	mlx_texture_t	*tex1;
+	mlx_texture_t	*tex2;
+	mlx_texture_t	*tex3;
+	mlx_texture_t	*tex4;
 	mlx_image_t		*img;
 	mlx_t			*mlx;
 	t_player	player;
@@ -138,8 +141,11 @@ typedef struct s_info
 	int rows;
 		t_ray		*ray;
 	double	angle;
-
-
+    double x_wall1;
+	double x_wall2;
+	double y_wall1;
+	double y_wall2;
+	t_cord inter;
 }	t_info;
 
 // typedef struct s_player

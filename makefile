@@ -17,7 +17,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 
 NAME = cub3D
-CFLAGS= -O3 -Ofast -flto   -Wall -Wextra -Werror
+CFLAGS= -O3 -Ofast -flto   -Wall -Wextra -Werror 
 
 ifeq ($(shell uname), Linux)
 	MLX_FLAGS = -lm MLX/Linux_MLX.a  -ldl -lglfw
