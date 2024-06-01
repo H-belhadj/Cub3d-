@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/06/01 17:10:11 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:55:00 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int	isright(double angle)
 	return (0);
 }
 
-void    direct(t_info *map)
-{
-    map->inter.down = 0;
-    map->inter.right = 0;
-    if (map->angle_fov >= 0 && map->angle_fov <= M_PI)
-        map->inter.down = 1;
-    if (map->angle_fov <= M_PI / 2.0 || map->angle_fov >= 1.5 * M_PI)
-        map->inter.right = 1;
-}
+// void    direct(t_info *map)
+// {
+//     map->inter.down = 0;
+//     map->inter.right = 0;
+//     if (map->angle_fov >= 0 && map->angle_fov <= M_PI)
+//         map->inter.down = 1;
+//     if (map->angle_fov <= M_PI / 2.0 || map->angle_fov >= 1.5 * M_PI)
+//         map->inter.right = 1;
+// }
 
 void my_mlx_texture_to_image(t_info* map)
 {
@@ -55,46 +55,55 @@ void my_mlx_texture_to_image(t_info* map)
     // printf("x_cal===%f || y_calc===%f\n", x_calc, y_calc);
     //first condition
     //second condtion
+    mlx_texture_t* photos = map->tex1;
     double x_tex, y_tex;
     x_tex = 0;
     y_tex = 0;
+    double start_y;
+    double y_plus = photos->height / (map->y_wall2 - map->y_wall1);
     
-    
-    mlx_texture_t* photos = map->tex1;
     
 
+    if((map->y_wall2 - map->y_wall1) >= map->height)
+        start_y =((map->y_wall2 - map->y_wall1)  / 2 - map->height  / 2);
+    else
+        start_y = 0;
     if(map->is_ray_facing_left && map->inter.is_vertical)
     {
         photos = map->tex1;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
-        y_tex = 0;
+        y_tex = start_y * y_plus;
     }
     else if(map->is_ray_facing_up && !map->inter.is_vertical)
     {
         photos = map->tex2;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
-        y_tex = 0;
+        y_tex = start_y * y_plus;
     }
     else if(!map->is_ray_facing_left && map->inter.is_vertical)
     {
         photos = map->tex3;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
-        y_tex = 0;
+        y_tex = start_y * y_plus;
     }
     else if(!map->is_ray_facing_up && !map->inter.is_vertical)
     {
         photos = map->tex4;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
-        y_tex = 0;
+        y_tex = start_y * y_plus;
     }
     
     double x_img = map->x_wall1;
-    double y_img = map->y_wall1;
-    double y_plus = photos->height / (map->y_wall2 - map->y_wall1);
+    double y_img;
+    // if((map->y_wall2 - map->y_wall1) >= map->height)
+    //     y_img = map->y_wall1 + start_y;
+    // else
+        y_img = map->y_wall1 + start_y;
 
     
     
-	while (y_tex < photos->height && y_img < map->y_wall2)
+    
+	while (y_tex < photos->height && y_img < map->y_wall2 - start_y)
 	{
         if (((y_tex * photos->width) + x_tex) * photos->bytes_per_pixel > 0 &&
             (((y_tex * photos->width) + x_tex) * photos->bytes_per_pixel < (photos->width * photos->height) * photos->bytes_per_pixel) 
@@ -106,7 +115,7 @@ void my_mlx_texture_to_image(t_info* map)
 		    memmove(pixeli, pixelx,  photos->bytes_per_pixel);
         }
         y_tex += y_plus;
-        y_img +=1;
+        y_img++;
 	}
 }
 
