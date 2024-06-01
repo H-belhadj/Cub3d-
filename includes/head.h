@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/31 19:48:26 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:31:32 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_cord
     double xstep;
     double ystep;
 	bool	is_vertical;
+	bool	down;
+	bool	right;
 } t_cord;
 
 typedef struct s_ray
@@ -103,6 +105,8 @@ typedef struct s_player
 
 typedef struct s_info
 {
+	bool	is_ray_facing_up;
+	bool	is_ray_facing_left;
     double angle_fov;
 	int width;
 	int height;

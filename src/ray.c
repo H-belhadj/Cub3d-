@@ -6,11 +6,41 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/05/31 22:52:17 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:10:11 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
+
+
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
+
+int	isdown(double angle)
+{
+	if (angle >= 0 && angle <= M_PI)
+		return (1);
+	return (0);
+}
+
+int	isright(double angle)
+{ 
+	if (angle <= M_PI / 2.0 || angle >= 1.5 * M_PI)
+		return (1);
+	return (0);
+}
+
+void    direct(t_info *map)
+{
+    map->inter.down = 0;
+    map->inter.right = 0;
+    if (map->angle_fov >= 0 && map->angle_fov <= M_PI)
+        map->inter.down = 1;
+    if (map->angle_fov <= M_PI / 2.0 || map->angle_fov >= 1.5 * M_PI)
+        map->inter.right = 1;
+}
 
 void my_mlx_texture_to_image(t_info* map)
 {
@@ -33,25 +63,25 @@ void my_mlx_texture_to_image(t_info* map)
     mlx_texture_t* photos = map->tex1;
     
 
-    if(x_calc <= 0.0001)
+    if(map->is_ray_facing_left && map->inter.is_vertical)
     {
         photos = map->tex1;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-    else if(y_calc <= 0.0001)
+    else if(map->is_ray_facing_up && !map->inter.is_vertical)
     {
         photos = map->tex2;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-    else if(x_calc > TILE_SIZE - 0.0001)
+    else if(!map->is_ray_facing_left && map->inter.is_vertical)
     {
         photos = map->tex3;
         x_tex = (y_calc * photos->width) / TILE_SIZE;
         y_tex = 0;
     }
-    else if(y_calc > TILE_SIZE - 0.0001)
+    else if(!map->is_ray_facing_up && !map->inter.is_vertical)
     {
         photos = map->tex4;
         x_tex = (x_calc * photos->width) / TILE_SIZE;
@@ -124,32 +154,32 @@ void	var_init(t_info *info)
 	info->rad = M_PI / 180;
 }
 
-void	check_dir_angle(t_info *info)
-{
-    int i = 0;
-    while(info->map[i])
-    {
-                // printf("%s\n", info->map[i]);
-        int j = 0;
-        while(info->map[i][j])
-        {
-            if (info->map[i][j] == 'W')
-            {
-            	info->angle = M_PI;
-            }
-            if (info->map[i][j] == 'E')
-            	info->angle = 0;
-            if (info->map[i][j] == 'S')
-            	info->angle = M_PI / 2;
-            if (info->map[i][j] == 'N')
-            	info->angle = 3 * M_PI / 2;
-            j++;
-        }
-        i++;
+// void	check_dir_angle(t_info *info)
+// {
+//     int i = 0;
+//     while(info->map[i])
+//     {
+//                 // printf("%s\n", info->map[i]);
+//         int j = 0;
+//         while(info->map[i][j])
+//         {
+//             if (info->map[i][j] == 'W')
+//             {
+//             	info->angle = M_PI;
+//             }
+//             if (info->map[i][j] == 'E')
+//             	info->angle = 0;
+//             if (info->map[i][j] == 'S')
+//             	info->angle = M_PI / 2;
+//             if (info->map[i][j] == 'N')
+//             	info->angle = 3 * M_PI / 2;
+//             j++;
+//         }
+//         i++;
         
-    }
+//     }
 
-}
+// }
 
 int	lenofmap(char **arr)
 {
@@ -195,14 +225,13 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 {
 	t_cord	cord;
 	int		sign;
-	bool	is_ray_facing_up;
 
-	is_ray_facing_up = ray_angle > M_PI;
+	mlx->is_ray_facing_up = ray_angle > M_PI;
 	sign = 1;
-	if (is_ray_facing_up)
+	if (mlx->is_ray_facing_up)
 		sign = -1;  
 	cord.ystep = (int) (mlx->player_y / TILE_SIZE) * TILE_SIZE;
-	if (!is_ray_facing_up)
+	if (!mlx->is_ray_facing_up)
 		cord.ystep += TILE_SIZE;
 	cord.xstep = mlx->player_x + (cord.ystep - mlx->player_y) / tan(ray_angle);
     
@@ -211,9 +240,9 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
     
     while (true)
 	{
-		if ((is_ray_facing_up && \
+		if ((mlx->is_ray_facing_up && \
 				has_wall(mlx, cord.xstep, cord.ystep - TILE_SIZE)) || \
-			(!is_ray_facing_up && \
+			(!mlx->is_ray_facing_up && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
 		cord.xstep += dx;
@@ -228,12 +257,12 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
 {
 	t_cord	cord;
 	int		sign;
-	bool	is_ray_facing_left;
 
-	is_ray_facing_left = ray_angle > M_PI / 2 && ray_angle < 1.5 * M_PI;
+
+	mlx->is_ray_facing_left = ray_angle > M_PI / 2 && ray_angle < 1.5 * M_PI;
 	sign = 1;
 	cord.xstep = (int) (1 + mlx->player_x / TILE_SIZE) * TILE_SIZE;
-	if (is_ray_facing_left)
+	if (mlx->is_ray_facing_left)
 	{
 		cord.xstep -= TILE_SIZE;
 		sign = -1;
@@ -244,9 +273,9 @@ t_cord	vertical_intersection(t_info *mlx, float ray_angle)
     const float dy = sign * TILE_SIZE * tan(ray_angle);
 	while (true)
 	{
-		if ((is_ray_facing_left && \
+		if ((mlx->is_ray_facing_left && \
 				has_wall(mlx, cord.xstep - TILE_SIZE, cord.ystep)) || \
-			(!is_ray_facing_left && \
+			(!mlx->is_ray_facing_left && \
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
 		cord.xstep += dx;
@@ -291,7 +320,6 @@ void drawalls(t_info *map, double i)
     map->x_wall2 = i;
     map->y_wall1 = (map->height / 2) - ((map->height / 2) / map->dis) * TILE_SIZE;
     map->y_wall2 = (map->height / 2) + ((map->height / 2) / map->dis)* TILE_SIZE;
-    
     my_mlx_texture_to_image(map);
     
 }
@@ -308,10 +336,15 @@ void hook_key(void *arg)
 
     double target_x = map->player_x;
     double target_y = map->player_y;
-    for (int i = 0; i < map->height; i++)
+    for (int i = 0; i < (map->height / 2); i++)
     {
         for (int j = 0; j < map->width; j++)
                 mlx_put_pixel(map->img, j, i, 0x000000);
+    }
+    for (int i = (map->height / 2); i < map->height; i++)
+    {
+        for (int j = 0; j < map->width; j++)
+                mlx_put_pixel(map->img, j, i, 0xFFFFFFFF);
     }
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
@@ -349,11 +382,12 @@ void hook_key(void *arg)
     else if(map->angle < 0)
         map->angle +=  2 * M_PI;
             
-    int map_x = target_x / TILE_SIZE;
+    int map_x = target_x  / TILE_SIZE;
     int map_y = target_y / TILE_SIZE;
-    if ( map->map[map_y][map_x] == '0' )
+    
+    if ( map->map[map_y][map_x] && map->map[map_y][map_x] == '0' )
     {
-        map->player_x = target_x;
+        map->player_x = target_x ;
         map->player_y = target_y;
     }
   
@@ -375,6 +409,7 @@ void hook_key(void *arg)
         v.is_vertical = true;   
         map->inter = smallest(map, h, v);
         map->dis *= cos(map->angle - map->angle_fov);
+        // direct(map);
         drawalls(map, i);
         map->angle_fov += disrays;
         i++;
