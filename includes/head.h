@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/01 16:31:32 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:50:01 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #define CUBE 10
 # define TILE_PLAYER_SIZE 1
 # define TILE_SIZE 64
-#define WIDTH 1500
-#define HEIGHT 1024
+#define WIDTH 1280
+#define HEIGHT 720
 # define MSIZE 170
 #define PLAYER_SPEED 2
 # define SPEED_R 3
