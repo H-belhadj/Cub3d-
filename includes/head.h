@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/01 18:50:01 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/02 22:18:15 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@
 #define CUBE 10
 # define TILE_PLAYER_SIZE 1
 # define TILE_SIZE 64
-#define WIDTH 1280
-#define HEIGHT 720
+#define WIDTH 1200
+#define HEIGHT 1200
 # define MSIZE 170
 #define PLAYER_SPEED 2
 # define SPEED_R 3
 # define M_SPEED_R 1
 # define SPEED_M 2
 # define FOV 60
+# define ZOOM 3
 
 
 # define PIXEL_SIZE 50
@@ -150,6 +151,13 @@ typedef struct s_info
 	double y_wall1;
 	double y_wall2;
 	t_cord inter;
+	int reversedR_F;
+    int reversedG_F;
+    int reversedB_F;
+	int reversedR_C;
+    int reversedG_C;
+    int reversedB_C;
+	int alpha;
 }	t_info;
 
 // typedef struct s_player
@@ -174,6 +182,8 @@ void	ft_free_info(t_info *info);
 
 t_info	*get_info(t_info *info, char *filename);
 void	throw_err_2(char *err_msg);
+
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 
 int		only(char *line, int c, int d);
 int		check_if_only_numbers(char **str);
@@ -207,6 +217,7 @@ void	player_pos(void);
 int get_height();
 int get_width();
 void draw_map(void *param);
+int32_t reverseRGB(char* input);
 void pos_player(t_info *map);
 int32_t	run_game(void);
 void init(t_info *map);

@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:31:10 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:14:56 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	*split_first_color(t_info *info, char *filename)
 	char	**just_rgb;
 	char	*tmp;
 	int		i;
-
+	info->alpha = 255;
 	i = 0;
 	fcolor = store_get_info_in_array(info, filename);
 	tmp = ft_half_strtrim(fcolor[4], "F\t ");
@@ -84,9 +84,7 @@ int	valid_rgb_f(t_info *info, char *filename)
 	if ((f[0] < 0 || f[0] > 255) 
 		|| (f[1] < 0 || f[1] > 255) 
 		|| (f[2] < 0 || f[2] > 255))
-	{
 		throw_err_2("Error\nRGB 'F' color not in range");
-	};
 	return (1);
 }
 

@@ -6,11 +6,47 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:17:27 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:59 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:07:45 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
+
+int32_t ft_pixel(int r, int g, int b, int alpha) {
+    return (alpha << 24) | (r << 16) | (g << 8) | b;
+}
+
+int32_t reverseRGB(char* input)
+{
+    // Check for NULL input
+    if (input == NULL)
+        return -1; // Return an error code
+
+    // Find the positions of the commas
+    const char* comma1 = strchr(input, ',');
+    if (comma1 == NULL)
+        return -1; // Return an error code if the input format is incorrect
+
+    const char* comma2 = strchr(comma1 + 1, ',');
+    if (comma2 == NULL)
+        return -1; // Return an error code if the input format is incorrect
+
+    // Extract the RGB values
+    int r = atoi(input);
+    int g = atoi(comma1 + 1);
+    int b = atoi(comma2 + 1);
+
+    // Reverse the RGB values
+    int reversedR = b;
+    int reversedG = g;
+    int reversedB = r;
+
+    // Assuming alpha value is 255 (fully opaque)
+    int alpha = 255;
+
+    // Pack the reversed RGB values with the alpha value into a 32-bit integer
+    return ft_pixel(reversedR, reversedG, reversedB, alpha);
+}
 /* TAKING ONLY THE FIRST WORD FROM A GIVEN LINE, WHICH IS IN OUR CASE 
 "NO" "SO" "WE" "EA" "F" "C" */
 char	*take_first_string(char *line)
@@ -118,7 +154,10 @@ t_info	*get_info(t_info *info, char *filename)
 				exit(1);
 			}
 			else
+			{
 				info->second_color = ft_strdup(str[i]);
+				// printf("second_color===%s\n", info->second_color);
+			}
 		}
 		else
 			throw_err_2("Wrong Identifier\n");

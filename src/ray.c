@@ -6,17 +6,17 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/06/01 17:55:00 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/02 22:27:54 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
 
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
+// uint32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+// {
+//     return (r << 24 | g << 16 | b << 8 | a);
+// }
 
 int	isdown(double angle)
 {
@@ -60,8 +60,9 @@ void my_mlx_texture_to_image(t_info* map)
     x_tex = 0;
     y_tex = 0;
     double start_y;
-    double y_plus = photos->height / (map->y_wall2 - map->y_wall1);
+    double y_plus =   photos->height / (map->y_wall2 - map->y_wall1);
     
+    // printf("wall===%f\n",(map->y_wall2 - map->y_wall1));
     
 
     if((map->y_wall2 - map->y_wall1) >= map->height)
@@ -150,7 +151,6 @@ void pos_player(t_info *map)
 			j++;
 		}
 	}
-	
 }
 
 void	var_init(t_info *info)
@@ -255,9 +255,7 @@ t_cord	horizontal_intersection(t_info *mlx, float ray_angle)
 				has_wall(mlx, cord.xstep, cord.ystep)))
 			break ;
 		cord.xstep += dx;
-		cord.ystep += dy ;
-
-        if (cord.xstep > mlx->width || cord.xstep < 0) break;
+		cord.ystep += dy;
 	}
 	return (cord);
 }
@@ -343,8 +341,8 @@ void hook_key(void *arg)
     t_info *map = (t_info*)arg;
 
 
-    double target_x = map->player_x;
-    double target_y = map->player_y;
+    double target_x = 0;
+    double target_y = 0;
     for (int i = 0; i < (map->height / 2); i++)
     {
         for (int j = 0; j < map->width; j++)
@@ -391,16 +389,21 @@ void hook_key(void *arg)
     else if(map->angle < 0)
         map->angle +=  2 * M_PI;
             
-    int map_x = target_x  / TILE_SIZE;
-    int map_y = target_y / TILE_SIZE;
+    int map_x = ((map->player_x + (target_x * 2) ) / TILE_SIZE) ;
+    int map_y = ((map->player_y + (target_y * 2) ) / TILE_SIZE) ;
+
     
-    if ( map->map[map_y][map_x] && map->map[map_y][map_x] == '0' )
+    // printf("mapx===%d || mapy===%d\n", map_x, map_y);
+    // printf("x===%d || y===%d\n",  get_width(),  get_height());
+    
+    if ( map_x > 0 && map_x < get_width() && map_y > 0 && map_y < get_height()
+            && map->map[map_y][map_x] == '0' )
     {
-        map->player_x = target_x ;
-        map->player_y = target_y;
+        map->player_x += target_x;
+        map->player_y += target_y;
     }
-  
-            
+
+    draw_map(map);
     map->angle_fov = map->angle - deg2rad(FOV / 2);
 
     double i = 0;
@@ -419,6 +422,7 @@ void hook_key(void *arg)
         map->inter = smallest(map, h, v);
         map->dis *= cos(map->angle - map->angle_fov);
         // direct(map);
+        drawLine(map, map->player_x / ZOOM, map->player_y / ZOOM, map->inter.xstep / ZOOM, map->inter.ystep / ZOOM, 0xFF000FFF);
         drawalls(map, i);
         map->angle_fov += disrays;
         i++;
@@ -487,8 +491,8 @@ void draw_map(void *param)
             {
                 for (x = 0; x < TILE_SIZE; x++)
                 {
-                    pixel_x = j * TILE_SIZE + x;
-                    pixel_y = i * TILE_SIZE + y;
+                    pixel_x = (j * TILE_SIZE + x) / ZOOM;
+                    pixel_y = (i * TILE_SIZE + y) / ZOOM;
 
                     
                     // Check if the pixel is on the border of the tile
@@ -534,8 +538,8 @@ void init(t_info *map)
     map->tex3 = mlx_load_png("./rose.png");
     map->tex4 = mlx_load_png("./smallx.png");
 
-    map->width = WIDTH;
-    map->height = HEIGHT;
+    map->width = HEIGHT;
+    map->height = WIDTH;
 
     map->mlx = mlx_init(map->width, map->height, "CUB3D", 0);
     if (!map->mlx) {

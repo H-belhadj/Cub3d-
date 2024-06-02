@@ -6,17 +6,17 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:14:40 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/28 14:29:00 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/02 21:24:03 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
-int	is_valid_textures(t_info *info, char *filename)
+int is_valid_textures(t_info *info, char *filename)
 {
-	char	*first;
-	char	*second;
-	char	*third;
-	char	*fourth;
+	char *first;
+	char *second;
+	char *third;
+	char *fourth;
 
 	first = valid_first_info(info, filename);
 	second = valid_second_info(info, filename);
@@ -25,8 +25,8 @@ int	is_valid_textures(t_info *info, char *filename)
 	if (!first || !second || !third || !fourth)
 	{
 		free(first);
-		free(second); 
-		free(third); 
+		free(second);
+		free(third);
 		free(fourth);
 		throw_err_2("Error\nPath to texture is not found\n");
 	}
@@ -37,35 +37,20 @@ int	is_valid_textures(t_info *info, char *filename)
 	return (0);
 }
 
-int	compare_dup_text(t_info *info, char *filename)
+int compare_dup_text(t_info *info, char *filename)
 {
-	char	**str;
+	char **str;
 
 	str = store_get_info_in_array(info, filename);
 	if (!str)
 		return (0);
-	if ((compare(str[0], str[1]) == 0)
-		|| (compare(str[0], str[2]) == 0)
-		|| (compare(str[0], str[3]) == 0)
-		|| (compare(str[0], str[4]) == 0)
-		|| (compare(str[0], str[5]) == 0)
-		|| (compare(str[1], str[2]) == 0)
-		|| (compare(str[1], str[3]) == 0)
-		|| (compare(str[1], str[4]) == 0)
-		|| (compare(str[1], str[5]) == 0)
-		|| (compare(str[2], str[3]) == 0)
-		|| (compare(str[2], str[4]) == 0)
-		|| (compare(str[2], str[5]) == 0)
-		|| (compare(str[2], str[5]) == 0)
-		|| (compare(str[3], str[4]) == 0)
-		|| (compare(str[3], str[5]) == 0)
-		|| (compare(str[4], str[5]) == 0))
+	if ((compare(str[0], str[1]) == 0) || (compare(str[0], str[2]) == 0) || (compare(str[0], str[3]) == 0) || (compare(str[0], str[4]) == 0) || (compare(str[0], str[5]) == 0) || (compare(str[1], str[2]) == 0) || (compare(str[1], str[3]) == 0) || (compare(str[1], str[4]) == 0) || (compare(str[1], str[5]) == 0) || (compare(str[2], str[3]) == 0) || (compare(str[2], str[4]) == 0) || (compare(str[2], str[5]) == 0) || (compare(str[2], str[5]) == 0) || (compare(str[3], str[4]) == 0) || (compare(str[3], str[5]) == 0) || (compare(str[4], str[5]) == 0))
 		throw_err_2("Error\nDuplicated Identifier\n");
 	return (arr_free(str), 0);
 }
-int	is_cub(char *filename)
+int is_cub(char *filename)
 {
-	char    *ext;
+	char *ext;
 
 	ext = ft_strchr(filename, '.');
 	if (ft_strlen(filename) < 5)
@@ -76,22 +61,22 @@ int	is_cub(char *filename)
 }
 // ====cheack map======
 
-void    *free_(char **file)
+void *free_(char **file)
 {
-    int i;
+	int i;
 
-    i = -1;
-    while (file[++i])
-        free(file[i]);
-    free (file);
-    return (NULL);
+	i = -1;
+	while (file[++i])
+		free(file[i]);
+	free(file);
+	return (NULL);
 }
 
-int	lines_number(char *str)
+int lines_number(char *str)
 {
-	char	*s;
-	int		fd;
-	int		i;
+	char *s;
+	int fd;
+	int i;
 
 	i = 0;
 	fd = open(str, O_RDWR);
@@ -107,9 +92,9 @@ int	lines_number(char *str)
 	return (i);
 }
 
-int	all_white(char *str)
+int all_white(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!str)
@@ -123,27 +108,27 @@ int	all_white(char *str)
 	return (1);
 }
 
-int	end(char **map, char *file_name)
+int end(char **map, char *file_name)
 {
-	int	e;
+	int e;
 
-	if(!file_name || !map)
+	if (!file_name || !map)
 		return (0);
-		
+
 	e = 0;
 	while (map[e])
 		e++;
 	e--;
-	//skip all line with whitespaces
+	// skip all line with whitespaces
 	while (map[e] && all_white(map[e]))
 		e--;
 	return (e);
 }
-int	skip_part1(char **tab)
+int skip_part1(char **tab)
 {
 
-	int		i;
-	int		c;
+	int i;
+	int c;
 
 	i = -1;
 	c = 0;
@@ -160,7 +145,7 @@ int	skip_part1(char **tab)
 	return (i);
 }
 
-int	len2darray(char **array)
+int len2darray(char **array)
 {
 	int i = 0;
 	while (array[i])
@@ -168,17 +153,17 @@ int	len2darray(char **array)
 	return (i);
 }
 
-void	put_map(char **map, char *file_name)
+void put_map(char **map, char *file_name)
 {
 
-	int	i;
-	int	j;
+	int i;
+	int j;
 	// int	n;
 	// int map_end;
 
 	i = skip_part1(map);
 
-	(void) file_name;
+	(void)file_name;
 	// printf("map");
 	// while (map[i])
 	// 	printf("line : %s\n", map[i++]);
@@ -208,14 +193,14 @@ void	put_map(char **map, char *file_name)
 	// 	printf("line : '%s' : \n", info_path->info->map[i++]);
 }
 
-int	empty_line(void)
+int empty_line(void)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (info_path->info->map[i])
 	{
-		
+
 		if (all_white(info_path->info->map[i]))
 			return (0);
 		i++;
@@ -223,33 +208,37 @@ int	empty_line(void)
 	return (1);
 }
 
-int player_num(void) {
-    int i;
-    int j;
-    int c;
-
-    i = -1;
-    c = 0;
-    while (info_path->info->map[++i]) {
-        j = -1;
-        while (info_path->info->map[i][++j]) {
-            if (info_path->info->map[i][j] == 'N' ||
-                info_path->info->map[i][j] == 'S' ||
-                info_path->info->map[i][j] == 'E' ||
-                info_path->info->map[i][j] == 'W') {
-                c++;
-            }
-        }
-    }
-    if (c != 1)
-        return (0);
-    return (1);
-}
-int	check_existance(char c)
+int player_num(void)
 {
-	int	i;
-	int	j;
-	int	count;
+	int i;
+	int j;
+	int c;
+
+	i = -1;
+	c = 0;
+	while (info_path->info->map[++i])
+	{
+		j = -1;
+		while (info_path->info->map[i][++j])
+		{
+			if (info_path->info->map[i][j] == 'N' ||
+				info_path->info->map[i][j] == 'S' ||
+				info_path->info->map[i][j] == 'E' ||
+				info_path->info->map[i][j] == 'W')
+			{
+				c++;
+			}
+		}
+	}
+	if (c != 1)
+		return (0);
+	return (1);
+}
+int check_existance(char c)
+{
+	int i;
+	int j;
+	int count;
 
 	count = 0;
 	i = -1;
@@ -267,10 +256,10 @@ int	check_existance(char c)
 	return (1);
 }
 
-int	check_content(void)
+int check_content(void)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = -1;
 	while (info_path->info->map[++i])
@@ -278,10 +267,12 @@ int	check_content(void)
 		j = -1;
 		while (info_path->info->map[i][++j])
 		{
-			if (info_path->info->map[i][j] != '0' && info_path->info->map[i][j] != '1'
-				&& info_path->info->map[i][j] != '\n' && info_path->info->map[i][j] != 'N'
-				&& info_path->info->map[i][j] != 'S' && info_path->info->map[i][j] != 'E'
-				&& info_path->info->map[i][j] != 'W' && info_path->info->map[i][j] != ' ')
+			if (info_path->info->map[i][j] != '0' && info_path->info->map[i][j] != '1' && info_path->info->map[i][j] != '\n' && info_path->info->map[i][j] != 'N' && info_path->info->map[i][j] != 'S' && info_path->info->map[i][j] != 'E' && info_path->info->map[i][j] != 'W' && info_path->info->map[i][j] != ' ')
+				// {
+				// 	if(info_path->info->map[i][j] == ' ')
+				// 		info_path->info->map[i][j] = '0';
+				// }
+				// else
 				return (0);
 		}
 	}
@@ -289,10 +280,10 @@ int	check_content(void)
 		return (0);
 	return (1);
 }
-void	player_pos(void)
+void player_pos(void)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = -1;
 	// printf("STORMY\n");
@@ -301,113 +292,153 @@ void	player_pos(void)
 		j = -1;
 		while (info_path->info->map[i][++j])
 		{
-			if (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'S'
-				|| info_path->info->map[i][j] == 'E' || info_path->info->map[i][j] == 'W')
+			if (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E' || info_path->info->map[i][j] == 'W')
 			{
 				info_path->info->pos = info_path->info->map[i][j];
 				info_path->info->x = i;
-				info_path->info->y  = j;
+				info_path->info->y = j;
 			}
 		}
 	}
 }
-int	map_len(void)
+int map_len(void)
 {
-	int	i;
+	int i;
 
-	i = 0; 
+	i = 0;
 	while (info_path->info->map[i])
 		i++;
 	return (i);
 }
-int is_closed(char c) {
-    int i = 0;
-    int j = 0;
-    int len_map = map_len();
 
-    if (len_map == 0) {
-        return 0; // Map is empty
-    }
+void check_contour_right_left(char **map)
+{
+	int i = 0;
 
-    while (i < len_map) {
-        int row_length = strlen(info_path->info->map[i]);
+	// Check the left wall
+	while (map[i])
+	{
+		if (map[i][0] != '1' && map[i][0] != ' ')
+		{
+			throw_err_2("the left wall is not fully 1 or space\n");
+		}
+		i++;
+	}
 
-        while (j < row_length) {
-            if (info_path->info->map[i][j] == c || info_path->info->map[i][j] == '0') {
-                // Check if the position is on the border of the map
-                if (i == 0 || i == len_map - 1 || j == 0 || j == row_length - 1) {
-                    return 0;
-                }
+	i = 0;
 
-                // Check if any surrounding cells are invalid
-                if (info_path->info->map[i][j - 1] == ' ' || info_path->info->map[i][j - 1] == '\0' ||
-                    info_path->info->map[i][j + 1] == ' ' || info_path->info->map[i][j + 1] == '\0' ||
-                    info_path->info->map[i - 1][j] == ' ' || j >= (int)strlen(info_path->info->map[i - 1]) ||
-                    info_path->info->map[i + 1][j] == ' ' || j >= (int)strlen(info_path->info->map[i + 1])) {
-                    return 0;
-                }
-            }
-            j++;
-        }
-        j = 0; // Reset j for the next row
-        i++;
-    }
-
-    // Additional checks to ensure the map is fully enclosed by '1'
-    i = 0;
-    while (i < len_map) {
-        int row_length = strlen(info_path->info->map[i]);
-
-        // Check the top and bottom rows
-        if (i == 0 || i == len_map - 1) {
-            j = 0;
-            while (j < row_length) {
-                if (info_path->info->map[i][j] != '1') {
-                    return 0;
-                }
-                j++;
-            }
-        }
-
-        // Check the first and last characters of each row
-        if (info_path->info->map[i][0] != '1' || info_path->info->map[i][row_length - 1] != '1') {
-            return 0;
-        }
-        i++;
-    }
-
-    return 1;
+	// Check the right wall
+	while (map[i])
+	{
+		int len = strlen(map[i]);
+		if (map[i][len - 1] != '1' && map[i][len - 1] != ' ')
+		{
+			throw_err_2("the right wall is not fully 1 or space\n");
+		}
+		i++;
+	}
 }
 
-
-int	check_first_last(void)
+void check_contour_up_down(char **map)
 {
-	int	i;
-	int	e;
+	int j;
+
+	j = 0;
+	if (map[0])
+	{
+		while (map[0][j])
+		{
+			if (map[0][j] == '1' || map[0][j] == ' ')
+				j++;
+			else
+				throw_err_2("the upper wall is not fully 1\n");
+		}
+	}
+	j = 0;
+	if (map[map_len() - 1])
+	{
+		while (map[map_len() - 1][j])
+		{
+			if (map[map_len() - 1][j] == '1' || map[map_len() - 1][j] == ' ')
+				j++;
+			else
+				throw_err_2("the lower wall is not fully 1\n");
+		}
+	}
+}
+int is_closed(char c)
+{
+	(void)c;
+	// ;
+	// int i = 0;
+	// int j = 0;
+	int len_map = map_len();
+	// int row_length;
+
+	if (len_map == 0)
+		return 0; // Map is empty
+
+	// while (info_path->info->map[i][j] && (info_path->info->map[i][j] == ' ' || info_path->info->map[i][j] == '1'))
+	// 	j++;
+	// if (info_path->info->map[i][j])
+	// 	return (0);
+	// while (info_path->info->map[++i][j] && i < len_map - 1)
+	// {
+	// 	j = 0;
+	// 	while (info_path->info->map[i][j] == ' ')
+	// 		j++;
+	// 	if (info_path->info->map[i][j] && info_path->info->map[i][j] != '1')
+	// 		return (0);
+	// 	j = strlen(info_path->info->map[i]);
+	// 	while (info_path->info->map[i][j] == ' ')
+	// 		j--;
+	// 	if (info_path->info->map[i][j] && info_path->info->map[i][j] != '1')
+	// 		return (0);
+	// }
+	// while (info_path->info->map[i][j] && (info_path->info->map[i][j] == ' ' || info_path->info->map[i][j] == '1'))
+	// 	j++;
+	// if (info_path->info->map[i][j])
+	// 	return (0);
+	// while (i < len_map)
+	// {
+	// 	j = strlen(info_path->info->map[i]);
+	// 	while (info_path->info->map[i][j] != 0)
+	// 	{
+	// 		if (info_path->info->map[i][j] == '0' || info_path->info->map[i][j] == c)
+	// 		{
+				
+	// 		}
+	// 	}
+	// }
+	return 1;
+}
+
+int check_first_last(void)
+{
+	int i;
+	int e;
 
 	i = -1;
 	while (info_path->info->map[0][++i])
 	{
-		if (info_path->info->map[0][i] == '0'
-			|| info_path->info->map[0][i] == info_path->info->pos)
+		if (info_path->info->map[0][i] == '0' || info_path->info->map[0][i] == info_path->info->pos)
 			return (0);
 	}
 	e = map_len() - 1;
 	i = -1;
 	while (info_path->info->map[e][++i])
 	{
-		if (info_path->info->map[e][i] == '0'
-			|| info_path->info->map[e][i] == info_path->info->pos)
+		if (info_path->info->map[e][i] == '0' || info_path->info->map[e][i] == info_path->info->pos)
 			return (0);
 	}
 	return (1);
 }
 
-int	checker_map1(char* file_name)
+int checker_map1(char *file_name)
 {
 	// (void)filename;
 	put_map(ft_split(read_file(file_name), '\n'), file_name);
-	
+
 	if (!empty_line())
 		return (0);
 	if (!check_content())
@@ -415,25 +446,28 @@ int	checker_map1(char* file_name)
 	player_pos();
 	if (!check_first_last())
 		return (0);
+	if (!is_closed(info_path->info->pos))
+	{
+		printf("%c\n", info_path->info->pos);
+		return (0);
+	}
 	// printf("ERRRRRRRRR\n");
 	// exit(1);
-	if (!is_closed(info_path->info->pos))
-		return (0);
-    printf("MapIsGood\n");
+	printf("MapIsGood\n");
 	return (1);
 }
 
-void	parsing(t_info *info, char *filename)
+void parsing(t_info *info, char *filename)
 {
-	//check_ext(filename);
+	// check_ext(filename);
 	int i;
 	compare_dup_text(info, filename);
 	is_valid_textures(info, filename);
 	valid_rgb_f(info, filename);
 	valid_rgb_c(info, filename);
 	i = 0;
-	if(!checker_map1(filename))
-    {
+	if (!checker_map1(filename))
+	{
 		printf("MapIsBAD🆘\n");
 		return;
 	}
@@ -441,5 +475,4 @@ void	parsing(t_info *info, char *filename)
 	// 	printf("%s\n", info_path->info->map[i++]);
 	// if (!x)
 	// 	printf("pist\n");
-
 }
