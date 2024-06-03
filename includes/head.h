@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 19:37:05 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:50:16 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_info
 	char	**map;
 	double		viewangle;
 	double	dis;
+	mlx_texture_t	*tex;
 	mlx_texture_t	*tex_north;
 	mlx_texture_t	*tex_south;
 	mlx_texture_t	*tex_west;

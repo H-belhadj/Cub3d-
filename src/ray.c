@@ -6,45 +6,23 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/06/03 20:41:09 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:23:15 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
 
-
-void my_mlx_texture_to_image(t_info* map)
+void _short(t_info *map, double x_percent, mlx_texture_t	*tex)
 {
 	uint8_t			*pixelx;
 	uint8_t			*pixeli;
-	mlx_texture_t	*tex;
-	t_cord	inter = map->inter;
-
-	double x_percent;
-	// intersection vertical
-	if (!inter.is_vertical) {
-		x_percent = inter.xstep / TILE_SIZE - ((int) inter.xstep / TILE_SIZE);
-		
-		tex = map->tex_north; // right
-		if (map->player_y - inter.ystep < 0){ // left
-			tex = map->tex_south;
-			x_percent = 1.0 - x_percent;
-		}
-	}
-	// intersection horizontal
-	else {
-		x_percent = inter.ystep / TILE_SIZE - ((int) inter.ystep / TILE_SIZE);
-		
-		tex = map->tex_east; // down
-		if (map->player_x - inter.xstep > 0){ // up 
-			tex = map->tex_west;
-			x_percent = 1.0 - x_percent;
-		}
-	}
-	int x_tex = x_percent * tex->width, y_tex;
+	
+	int x_tex = x_percent * tex->width;
+	int y_tex;
 	int y_start = map->y_wall1;
 	int y_end = map->y_wall1 + map->y_wall2;
-	if (y_end > map->height) y_end = map->height;
+	if (y_end > map->height) 
+		y_end = map->height;
 	int x_map = map->x_wall1;
 	int y_map = y_start * (y_start > 0);
 	double k = (double)tex->height / map->y_wall2;
@@ -57,6 +35,36 @@ void my_mlx_texture_to_image(t_info* map)
 		ft_memmove(pixeli, pixelx,  tex->bytes_per_pixel);
 		y_map++;
 	}
+	
+}
+
+void my_mlx_texture_to_image(t_info* map, double x_percent)
+{
+	mlx_texture_t	*tex;
+	t_cord	inter;
+
+	inter = map->inter;
+	if (!inter.is_vertical)
+	{
+		x_percent = inter.xstep / TILE_SIZE - ((int) inter.xstep / TILE_SIZE);
+		tex = map->tex_north;
+		if (map->player_y - inter.ystep < 0)
+		{
+			tex = map->tex_south;
+			x_percent = 1.0 - x_percent;
+		}
+	}
+	else
+	{
+		x_percent = inter.ystep / TILE_SIZE - ((int) inter.ystep / TILE_SIZE);
+		tex = map->tex_east;
+		if (map->player_x - inter.xstep > 0)
+		{
+			tex = map->tex_west;
+			x_percent = 1.0 - x_percent;
+		}
+	}
+	_short(map, x_percent, tex);
 }
 
 void check_dir(t_info *map, int i, int j)
@@ -212,7 +220,7 @@ void	drawalls(t_info *map, double i)
 	map->x_wall2 = i;
 	map->y_wall1 = map->height / 2 - wall_height / 2;
 	map->y_wall2 = wall_height;
-	my_mlx_texture_to_image(map);
+	my_mlx_texture_to_image(map,0);
 }
 
 double	deg2rad(double degrees)

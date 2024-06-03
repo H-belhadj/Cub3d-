@@ -1,11 +1,11 @@
 NO ./assets/north.png
 SO ./assets/south.png
-WE ./assets/west.png
 EA ./assets/east.png
 
 
 F 0,0,0
 C 0,0,0
+WE ./assets/west.png
 
 111111111111111111111
 101000001000000000001
