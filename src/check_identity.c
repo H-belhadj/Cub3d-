@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_identity.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:55:26 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 16:33:41 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/06/03 22:42:17 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*read_file(char *filename)
 	if (fd == -1)
 		return (NULL);
 	str = get_next_line(fd);
+	// printf("line is: %s\n", str);
 	if (!str)
 		throw_err_2("Error\nFile is empty\n");
 	line = ft_strdup("");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:58:50 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 16:59:40 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/06/03 23:14:52 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ void put_map(char **map, char *file_name)
 	int	i;
 	int	j;
 
+	// for(int x = 0; map[x]; x++)
+	// 	printf("		->%s|\n", map[x]);
+	// exit(0);
 	(void)file_name;
 	i = skip_part1(map);
 	info_path->info->map = ft_calloc(sizeof(char *), 
