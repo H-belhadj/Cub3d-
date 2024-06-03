@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:14:00 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 23:40:31 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:51:16 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ int	is_closed(char c)
 		// printf("--->%s\n", info_path->info->map[i]);
 		while (info_path->info->map[i][++j])
 		{
-			if ((info_path->info->map[i][j] == ' '
-				|| info_path->info->map[i][j] == '0') && (info_path->info->map[i+1]) && ft_strlen(info_path->info->map[i+1]) < (size_t)j)
-				return(0);
+			// if ((info_path->info->map[i][j] == ' ' || info_path->info->map[i][j] == '0' || 
+			// 	info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E')
+			// 	 && info_path->info->map[i+1] && ft_strlen(info_path->info->map[i+1]) < (size_t)j)
+			// 		return(0);
 			if (info_path->info->map[i][j] == '0' || (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E'))
 			{
-				if ((i == 0 || (size_t)j > ft_strlen(info_path->info->map[i - 1])) || 
+				if ((i == 0 || (size_t)j >= ft_strlen(info_path->info->map[i - 1])) || 
 					info_path->info->map[i - 1][j] == ' ' || info_path->info->map[i - 1][j] == '\n')
 					return (0);
-				if ((!info_path->info->map[i + 1] || (size_t)j > ft_strlen(info_path->info->map[i + 1])) || 
+				if ((!info_path->info->map[i + 1] || (size_t)j >= ft_strlen(info_path->info->map[i + 1])) || 
 					info_path->info->map[i + 1][j] == ' ' || info_path->info->map[i + 1][j] == '\n')
 					return (0);
 				if (i == 0 || info_path->info->map[i][j - 1] == ' ' || info_path->info->map[i][j - 1] == '\n')
