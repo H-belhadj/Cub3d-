@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/06/02 22:27:54 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:47:49 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ void my_mlx_texture_to_image(t_info* map)
             && ((y_img * map->img->width) + x_img) * photos->bytes_per_pixel > 0
             && (((y_img * map->img->width) + x_img) * photos->bytes_per_pixel < (map->img->width * map->img->height) * photos->bytes_per_pixel))
         {
-		    pixelx = &photos->pixels[(((uint32_t)y_tex * photos->width) + (uint32_t)x_tex) * photos->bytes_per_pixel];
-		    pixeli = &map->img->pixels[(((uint32_t)y_img * map->img->width) + (uint32_t)x_img) * photos->bytes_per_pixel];
+		    pixelx = &photos->pixels[(((int)y_tex * photos->width) + (int)x_tex) * photos->bytes_per_pixel];
+		    pixeli = &map->img->pixels[(((int)y_img * map->img->width) + (int)x_img) * photos->bytes_per_pixel];
 		    memmove(pixeli, pixelx,  photos->bytes_per_pixel);
         }
         y_tex += y_plus;
@@ -346,12 +346,12 @@ void hook_key(void *arg)
     for (int i = 0; i < (map->height / 2); i++)
     {
         for (int j = 0; j < map->width; j++)
-                mlx_put_pixel(map->img, j, i, 0x000000);
+                mlx_put_pixel(map->img, j, i, ft_pixel(map->_f[0], map->_f[1], map->_f[2], map->alpha));
     }
     for (int i = (map->height / 2); i < map->height; i++)
     {
         for (int j = 0; j < map->width; j++)
-                mlx_put_pixel(map->img, j, i, 0xFFFFFFFF);
+                mlx_put_pixel(map->img, j, i, ft_pixel(map->_c[0], map->_c[1], map->_c[2], map->alpha));
     }
 
     if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
@@ -391,10 +391,6 @@ void hook_key(void *arg)
             
     int map_x = ((map->player_x + (target_x * 2) ) / TILE_SIZE) ;
     int map_y = ((map->player_y + (target_y * 2) ) / TILE_SIZE) ;
-
-    
-    // printf("mapx===%d || mapy===%d\n", map_x, map_y);
-    // printf("x===%d || y===%d\n",  get_width(),  get_height());
     
     if ( map_x > 0 && map_x < get_width() && map_y > 0 && map_y < get_height()
             && map->map[map_y][map_x] == '0' )
@@ -409,7 +405,7 @@ void hook_key(void *arg)
     double i = 0;
     double disrays = deg2rad(FOV)/ map->width;
 
-    while(i <= map->width)
+    while(i < map->width)
     {
         if(map->angle_fov > 2 * M_PI)
             map->angle_fov -=  2 * M_PI;
@@ -524,19 +520,14 @@ void draw_map(void *param)
     }
 }
 
-// void draw_plyer(void *param)
-// {
-    
-    
-// }
 
 
 void init(t_info *map)
 {
-    map->tex1 = mlx_load_png("./iceberg.png");
-    map->tex2 = mlx_load_png("./drafanov.png");
-    map->tex3 = mlx_load_png("./rose.png");
-    map->tex4 = mlx_load_png("./smallx.png");
+    map->tex1 = mlx_load_png("./marooccccc.png");
+    map->tex2 = mlx_load_png("./palestineflag.png");
+    map->tex3 = mlx_load_png("./masjiid.png");
+    map->tex4 = mlx_load_png("./gofiya.png");
 
     map->width = HEIGHT;
     map->height = WIDTH;
