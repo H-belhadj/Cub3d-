@@ -7,7 +7,10 @@ SRC = main.c \
        get_path.c \
        get_color.c \
        color.c \
-       parse.c \
+       parse_1.c \
+       parse_2.c \
+       parse_3.c \
+       parsing.c \
        helpers.c
 
 SRC_DIR = src/

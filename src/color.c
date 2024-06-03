@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:31:10 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/02 18:14:56 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:05:38 by aatbir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
+
 void	throw_err_1(char **str, char **fcolor, char *tmp)
 {
 	if (check_if_only_numbers(str) != 1)
@@ -22,21 +23,23 @@ void	throw_err_1(char **str, char **fcolor, char *tmp)
 		exit(1);
 	}
 }
+
 int	*split_first_color(t_info *info, char *filename)
 {
 	char	**fcolor;
 	char	**just_rgb;
 	char	*tmp;
 	int		i;
-	info->alpha = 255;
+
 	i = 0;
+	info->alpha = 255;
 	fcolor = store_get_info_in_array(info, filename);
 	tmp = ft_half_strtrim(fcolor[4], "F\t ");
 	if (!fcolor || !tmp)
 		return (NULL);
 	just_rgb = ft_split(tmp, ',');
 	if (!just_rgb || just_rgb[0] == NULL || just_rgb[1] == NULL
-			|| just_rgb[2] == NULL || just_rgb[3] != NULL)
+		|| just_rgb[2] == NULL || just_rgb[3] != NULL)
 		throw_err_2("RGB 'F' color is not written correctly");
 	throw_err_1(just_rgb, fcolor, tmp);
 	while (i < 3)
@@ -56,6 +59,7 @@ int	*split_second_color(t_info *info, char *filename)
 	int		i;
 
 	i = 0;
+	info->alpha = 255;
 	ccolor = store_get_info_in_array(info, filename);
 	tmp = ft_half_strtrim(ccolor[5], "C\t ");
 	if (!ccolor || !tmp)

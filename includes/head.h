@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:14:11 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 15:45:47 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:37:05 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ typedef struct s_info
 	char	**map;
 	double		viewangle;
 	double	dis;
-	mlx_texture_t	*tex1;
-	mlx_texture_t	*tex2;
-	mlx_texture_t	*tex3;
-	mlx_texture_t	*tex4;
+	mlx_texture_t	*tex_north;
+	mlx_texture_t	*tex_south;
+	mlx_texture_t	*tex_west;
+	mlx_texture_t	*tex_east;
 	mlx_image_t		*img;
 	mlx_t			*mlx;
 	t_player	player;
@@ -158,6 +158,8 @@ typedef struct s_info
     int reversedG_C;
     int reversedB_C;
 	int alpha;
+	float dx;
+	float dy;
 }	t_info;
 
 // typedef struct s_player
@@ -214,14 +216,19 @@ char	*start_with(char *first_word, char *target, size_t size);
 int		is_valid_textures(t_info *info, char *filename);
 void check_get_info(t_info	*info, char *filename);
 void	player_pos(void);
-int get_height();
-int get_width();
+int get_height(void);
+int get_width(void);
 void draw_map(void *param);
 int32_t reverseRGB(char* input);
 void pos_player(t_info *map);
 int32_t	run_game(void);
 void init(t_info *map);
-
-
-
+int check_content(void);
+void put_map(char **map, char *file_name);
+int	all_white(char *str);
+void	*free_(char **file);
+int empty_line(void);
+int	check_existance(char c);
+int	lines_number(char *str);
+int	map_len(void);
 #endif

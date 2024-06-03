@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:17:27 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/02 17:07:45 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:55:31 by aatbir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
 
-int32_t ft_pixel(int r, int g, int b, int alpha) {
+int32_t ft_pixel(int r, int g, int b, int alpha)
+{
     return (alpha << 24) | (r << 16) | (g << 8) | b;
 }
 
@@ -181,12 +182,12 @@ char	**store_get_info_in_array(t_info *info, char *filename)
 	info = get_info(info, filename);
 	if (!str || !info)
 		return (NULL);
-	str[0] = info->first_info;
-	str[1] = info->second_info;
-	str[2] = info->third_info;
-	str[3] = info->fourth_info;
-	str[4] = info->first_color;
-	str[5] = info->second_color;
+	str[0] = ft_strdup(info->first_info);
+	str[1] = ft_strdup(info->second_info);
+	str[2] = ft_strdup(info->third_info);
+	str[3] = ft_strdup(info->fourth_info);
+	str[4] = ft_strdup(info->first_color);
+	str[5] = ft_strdup(info->second_color);
 	str[6] = NULL;
 	free(info);
 	return (str);

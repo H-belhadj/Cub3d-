@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_identity.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:55:26 by aatbir            #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:54 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:33:41 by aatbir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 
 void	hadik(char **str, char *rawmap, int j)
 {
+	int	i;
+
 	(void)j;
-	int i = -1;
-	while (str[++i]);
-	// printf("star::%d\n",i);
+	i = -1;
 	if (i < 7)
 	{
 		arr_free(str);
 		free(rawmap);
-		// printf("Error\nMa9ritch 6\n");
 		exit(1);
 	}
 }
+
 char	*read_file(char *filename)
 {
 	char	*str;
@@ -39,14 +39,9 @@ char	*read_file(char *filename)
 	if (fd == -1)
 		return (NULL);
 	str = get_next_line(fd);
-	// printf("line====%s\n", str);
 	if (!str)
-	{
-		printf("map mafiha 7ta 9alwa\n");
-		exit(1);
-	}
+		throw_err_2("Error\nFile is empty\n");
 	line = ft_strdup("");
-	// printf("foula==%s\n", str);
 	if (!line)
 		return (free(str), NULL);
 	while (str)
@@ -100,8 +95,7 @@ char	**splimed_key_value_6(char *filename)
 			splimed_str[j++] = ft_strtrim(str[i], " \t");
 		i++;
 	}
-	
-	hadik(str, rawmap, j);
+	// xhadik(str, rawmap, j);
 	return (free(rawmap), arr_free(str), splimed_str);
 }
 
@@ -122,5 +116,3 @@ char	*ft_half_strtrim(char const *s1, char const *set)
 	}
 	return (ft_substr((char *)s1, 0, ft_strlen((char *)s1)));
 }
-
-
