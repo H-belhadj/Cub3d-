@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:58:50 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 23:14:52 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:46:28 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	all_white(char *str)
 	while (str[i])
 	{
 		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+		{
+			printf("magdaaar\n");
 			return (0);
+		}
 		i++;
 	}
 	return (1);

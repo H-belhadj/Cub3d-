@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:14:00 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 23:51:16 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:50:09 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ int	is_closed(char c)
 	while (info_path->info->map[++i] && i < map_len())
 	{
 		j = -1;
-		// printf("--->%s\n", info_path->info->map[i]);
+		if (info_path->info->map[i][0] == '0')
+			return (0);
 		while (info_path->info->map[i][++j])
 		{
-			// if ((info_path->info->map[i][j] == ' ' || info_path->info->map[i][j] == '0' || 
-			// 	info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E')
-			// 	 && info_path->info->map[i+1] && ft_strlen(info_path->info->map[i+1]) < (size_t)j)
-			// 		return(0);
 			if (info_path->info->map[i][j] == '0' || (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E'))
 			{
 				if ((i == 0 || (size_t)j >= ft_strlen(info_path->info->map[i - 1])) || 
@@ -43,19 +40,6 @@ int	is_closed(char c)
 			}
 			if (info_path->info->map[i][j] == c)
 			{
-				// if (map[j][i] == c)
-				// {
-				// 	if ((j == 0 || i > ft_strlen(map[j - 1])) || 
-				// 		map[j - 1][i] == ' ' || map[j - 1][i] == '\n')
-				// 		return (1);
-				// 	if ((!map[j + 1] || i > ft_strlen(map[j + 1])) || 
-				// 		map[j + 1][i] == ' ' || map[j + 1][i] == '\n')
-				// 		return (1);
-				// 	if (i == 0 || map[j][i - 1] == ' ' || map[j][i - 1] == '\n')
-				// 		return (1);
-				// 	if (!map[j][i + 1] || map[j][i + 1] == ' ' || map[j][i + 1] == '\n')
-				// 		return (1);
-				// }
 				if ((info_path->info->map[i][j - 1] == ' '
 					|| info_path->info->map[i][j - 1] == 0)
 					|| (info_path->info->map[i][j + 1] == ' '
@@ -197,12 +181,8 @@ int	checker_map1(char *file_name)
 	int fd = open(file_name, O_RDONLY);
 
 	put_map(map_to_ar(fd), file_name);
-	printf("yes\n");
-	// for(int i = 0; info_path->info->map[i] ;i++)
-	// 	printf("======%s|\n", info_path->info->map[i]);
-	// exit(0);
-	if (!empty_line())
-		return (0);
+	// if (!empty_line())
+	// 	return (0);
 	if (!check_content())
 		return (0);
 	player_pos();
@@ -223,8 +203,5 @@ void	parsing(t_info *info, char *filename)
 	valid_rgb_f(info, filename);
 	valid_rgb_c(info, filename);
 	if (!checker_map1(filename))
-	{
 		throw_err_2("MapIsBAD🆘\n");
-	}
-	
 }

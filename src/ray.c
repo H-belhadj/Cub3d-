@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 10:10:04 by hbelhadj          #+#    #+#             */
-/*   Updated: 2024/06/03 21:23:15 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:49 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,8 +382,8 @@ void text(t_info *map)
 {
 	map->tex_north = mlx_load_png("./masjiid.png");
 	map->tex_south = mlx_load_png("./palestineflag.png");
-	map->tex_west = mlx_load_png("./smallx.png");
-	map->tex_east = mlx_load_png("./iceberg.png");
+	map->tex_west = mlx_load_png("./gofiya.png");
+	map->tex_east = mlx_load_png("./aboubaida (1).png");
 	
 }
 
