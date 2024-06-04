@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:17:27 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 16:55:31 by aatbir           ###   ########.fr       */
+/*   Updated: 2024/06/04 17:28:58 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ char	*take_first_string(char *line)
 
 	i = 0;
 	j = 0;
-	first_part = malloc(2);
+	first_part = malloc(ft_strlen(line));
 	if (!line || !first_part)
 		return (NULL);
 	if (line[i] != '\0')
 	{
-		while (line[i] != 32 && line[i] != '\t' && j < 2)
+		while (line[i] && line[i] != ' ' && line[i] != '\t')
 			first_part[j++] = line[i++];
 		first_part[j] = '\0';
 	}
@@ -76,8 +76,9 @@ char	*start_with(char *first_word, char *target, size_t size)
 {
 	char	*tmp;
 
+	(void)size;
 	tmp = take_first_string(first_word);
-	if (ft_strncmp(tmp, target, size) == 0)
+	if (ft_strncmp(tmp, target, ft_strlen(tmp)) == 0)
 		return (free(tmp), first_word);
 	else
 		return (free(tmp), NULL);
@@ -93,7 +94,6 @@ t_info	*get_info(t_info *info, char *filename)
 
 	i = 0;
 	info = ft_calloc(sizeof(t_info), 1);
-	// printf("s->---------%s\n",info->first_info);
 	str = splimed_key_value_6(filename);
 	while (str[i] != NULL)
 	{
