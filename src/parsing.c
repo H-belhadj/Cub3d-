@@ -6,11 +6,53 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:14:00 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/04 14:50:09 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:17:26 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
+
+int is_close_1(int i, int j)
+{
+	if (info_path->info->map[i][j] == '0' || (info_path->info->map[i][j] == 'N' ||
+		info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || 
+		info_path->info->map[i][j] == 'E'))
+	{
+		if ((i == 0 || (size_t)j >= ft_strlen(info_path->info->map[i - 1])) || 
+			info_path->info->map[i - 1][j] == ' ' || 
+			info_path->info->map[i - 1][j] == '\n')
+			return (0);
+		if ((!info_path->info->map[i + 1] || 
+			(size_t)j >= ft_strlen(info_path->info->map[i + 1])) || 
+			info_path->info->map[i + 1][j] == ' ' || 
+			info_path->info->map[i + 1][j] == '\n')
+			return (0);
+		if (i == 0 || info_path->info->map[i][j - 1] == ' ' || 
+			info_path->info->map[i][j - 1] == '\n')
+			return (0);
+		if (!info_path->info->map[i][j + 1] || 
+			info_path->info->map[i][j + 1] == ' ' || 
+			info_path->info->map[i][j + 1] == '\n')
+			return (0);
+	}
+	return (1);
+}
+int	is_close_2(char c, int i, int j)
+{
+	if (info_path->info->map[i][j] == c)
+	{
+		if ((info_path->info->map[i][j - 1] == ' '
+			|| info_path->info->map[i][j - 1] == 0)
+			|| (info_path->info->map[i][j + 1] == ' '
+			|| info_path->info->map[i][j + 1] == 0)
+			|| (info_path->info->map[i - 1][j] == ' '
+			|| j + 1 >= (int)ft_strlen(info_path->info->map[i - 1]))
+			|| (info_path->info->map[i + 1][j] == ' '
+			|| j + 1 >= (int)ft_strlen(info_path->info->map[i + 1])))
+			return (0);
+	}
+	return(1);
+}
 
 int	is_closed(char c)
 {
@@ -25,31 +67,10 @@ int	is_closed(char c)
 			return (0);
 		while (info_path->info->map[i][++j])
 		{
-			if (info_path->info->map[i][j] == '0' || (info_path->info->map[i][j] == 'N' || info_path->info->map[i][j] == 'W' || info_path->info->map[i][j] == 'S' || info_path->info->map[i][j] == 'E'))
-			{
-				if ((i == 0 || (size_t)j >= ft_strlen(info_path->info->map[i - 1])) || 
-					info_path->info->map[i - 1][j] == ' ' || info_path->info->map[i - 1][j] == '\n')
-					return (0);
-				if ((!info_path->info->map[i + 1] || (size_t)j >= ft_strlen(info_path->info->map[i + 1])) || 
-					info_path->info->map[i + 1][j] == ' ' || info_path->info->map[i + 1][j] == '\n')
-					return (0);
-				if (i == 0 || info_path->info->map[i][j - 1] == ' ' || info_path->info->map[i][j - 1] == '\n')
-					return (0);
-				if (!info_path->info->map[i][j + 1] || info_path->info->map[i][j + 1] == ' ' || info_path->info->map[i][j + 1] == '\n')
-					return (0);
-			}
-			if (info_path->info->map[i][j] == c)
-			{
-				if ((info_path->info->map[i][j - 1] == ' '
-					|| info_path->info->map[i][j - 1] == 0)
-					|| (info_path->info->map[i][j + 1] == ' '
-					|| info_path->info->map[i][j + 1] == 0)
-					|| (info_path->info->map[i - 1][j] == ' '
-					|| j + 1 >= (int)ft_strlen(info_path->info->map[i - 1]))
-					|| (info_path->info->map[i + 1][j] == ' '
-					|| j + 1 >= (int)ft_strlen(info_path->info->map[i + 1])))
-					return (0);
-			}
+			if (is_close_1(i, j) == 0)
+				return (0);
+			if (is_close_2(c, i, j) == 0)
+				return (0);
 		}
 	}
 	return (1);
@@ -77,40 +98,6 @@ int	check_first_last(void)
 	}
 	return (1);
 }
-
-
-// char	**spliting(char const *s, char c)
-// {
-// 	char	**del_s;
-// 	size_t	x;
-// 	size_t	y;
-// 	size_t	z;
-
-// 	x = 0;
-// 	y = 0;
-// 	del_s = (char **)malloc(sizeof(char *) * (wordlen(s, c) + 1));
-// 	if (!del_s || !s)
-// 		return (NULL);
-// 	while (x < wordlen(s, c) && s[y] != '\0')
-// 	{
-// 		if (s[y] == '\n' && s[y+1] && s[y+1] == '\n')
-// 		{
-// 			del_s[x] = "";
-// 			continue;
-// 		}
-// 		while (s[y] == c)
-// 			y++;
-// 		z = y;
-// 		while (s[y] != c && s[y] != '\0')
-// 			y++;
-// 		del_s[x] = ft_alloclist(&s[z], y - z);
-// 		if (del_s[x] == 0)
-// 			return (ft_free(del_s));
-// 		x++;
-// 	}
-// 	del_s[x] = NULL;
-// 	return (del_s);
-// }
 
 void    free_arr(char **ar)
 {
@@ -181,8 +168,6 @@ int	checker_map1(char *file_name)
 	int fd = open(file_name, O_RDONLY);
 
 	put_map(map_to_ar(fd), file_name);
-	// if (!empty_line())
-	// 	return (0);
 	if (!check_content())
 		return (0);
 	player_pos();
@@ -190,9 +175,6 @@ int	checker_map1(char *file_name)
 		return (0);
 	if (!is_closed(info_path->info->pos || !is_closed('0')))
 		return (0);
-	// printf("errororor\n");
-	// exit(1);
-	printf("MapIsGood\n");
 	return (1);
 }
 

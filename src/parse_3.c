@@ -6,25 +6,12 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:02:17 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 21:46:23 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:09:31 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/head.h"
 
-int	empty_line(void)
-{
-	int	i;
-
-	i = 0;
-	while (info_path->info->map[i])
-	{
-		if (all_white(info_path->info->map[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	player_num(void)
 {
