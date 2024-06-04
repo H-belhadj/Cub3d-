@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:58:50 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/04 14:46:28 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:08:23 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int	all_white(char *str)
 	while (str[i])
 	{
 		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
-		{
-			printf("magdaaar\n");
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -46,7 +43,7 @@ int	end(char **map, char *file_name)
 	return (e);
 }
 
-int skip_part1(char **tab)
+int	skip_part1(char **tab)
 {
 	int	i;
 	int	c;
@@ -76,17 +73,14 @@ int	len2darray(char **array)
 	return (i);
 }
 
-void put_map(char **map, char *file_name)
+void	put_map(char **map, char *file_name)
 {
 	int	i;
 	int	j;
 
-	// for(int x = 0; map[x]; x++)
-	// 	printf("		->%s|\n", map[x]);
-	// exit(0);
 	(void)file_name;
 	i = skip_part1(map);
-	info_path->info->map = ft_calloc(sizeof(char *), 
+	g_info_path->info->map = ft_calloc(sizeof(char *),
 			((len2darray(map) - i) + 1));
 	j = 0;
 	while (map[i])
@@ -94,9 +88,9 @@ void put_map(char **map, char *file_name)
 		if (!map[i][0])
 			i++;
 		else
-			info_path->info->map[j++] = ft_strdup(map[i++]);
+			g_info_path->info->map[j++] = ft_strdup(map[i++]);
 	}
-	info_path->info->map[j] = NULL;
+	g_info_path->info->map[j] = NULL;
 	i = 0;
 	free_(map);
 }

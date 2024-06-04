@@ -1,7 +1,7 @@
-NO ./assets/north.png
-SO ./assets/south.png
-EA ./assets/east.png
-WE ./assets/west.png
+NO ./assets/masjiid.png
+SO ./assets/palestineflag.png
+EANO ./assets/marooccccc.pn
+WE ./assets/aboubaida(1).png
 
 F 220,100,0
 C 225,30,0

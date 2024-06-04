@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:55:26 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/03 22:42:17 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:07:20 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*read_file(char *filename)
 	if (fd == -1)
 		return (NULL);
 	str = get_next_line(fd);
-	// printf("line is: %s\n", str);
 	if (!str)
 		throw_err_2("Error\nFile is empty\n");
 	line = ft_strdup("");
@@ -51,7 +50,7 @@ char	*read_file(char *filename)
 		line = ft_strjoin(line, str);
 		free(str);
 		free(tmp);
-		str = get_next_line(fd); 
+		str = get_next_line(fd);
 	}
 	close(fd);
 	return (line);
@@ -96,7 +95,6 @@ char	**splimed_key_value_6(char *filename)
 			splimed_str[j++] = ft_strtrim(str[i], " \t");
 		i++;
 	}
-	// xhadik(str, rawmap, j);
 	return (free(rawmap), arr_free(str), splimed_str);
 }
 

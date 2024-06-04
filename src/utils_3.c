@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aatbir <aatbir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 20:45:49 by aatbir            #+#    #+#             */
-/*   Updated: 2024/06/04 19:46:10 by aatbir           ###   ########.fr       */
+/*   Created: 2024/06/04 18:45:22 by aatbir            #+#    #+#             */
+/*   Updated: 2024/06/04 18:54:23 by aatbir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/head.h"
 
-size_t	ft_strlcpy(char *dest, char *src, size_t len)
+void	check_first_color(t_info *info, char **str, int i)
 {
-	size_t	i;
-
-	i = 0;
-	while (len == 0)
-		return (ft_strlen(src));
-	while (src[i] != '\0' && (i < len - 1))
+	if (info->first_color != NULL)
 	{
-		dest[i] = src[i];
-		i++;
+		free(str[i]);
+		throw_err_2("error: duplicate\n");
 	}
-	dest[i] = '\0';
-	return (ft_strlen(src));
+	else
+		info->first_color = ft_strdup(str[i]);
+}
+
+void	check_second_color(t_info *info, char **str, int i)
+{
+	if (info->second_color != NULL)
+		throw_err_2("error: duplicate\n");
+	else
+		info->second_color = ft_strdup(str[i]);
 }
